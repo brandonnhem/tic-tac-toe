@@ -2,7 +2,7 @@ PImage imgx, imgo;
 
 int w;              //Width of the grid
 int h;              //Height of the grid
-int bs = w / 3;           //block size
+int bs = 300;           //block size
 int playCount = 0;        //number of user turns
 int numCols = 3;
 int numRows = 3;
