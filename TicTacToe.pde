@@ -12,6 +12,7 @@ int[][] grid = new int [numRows][numCols];
 int[] gridSpots = new int [9];
 int[] playerSpots = new int [9];
 int[] botSpots = new int [9];
+boolean gameOver = false;
 
 void setup () {
   size (900, 900);            //size will only take literals, not variables
@@ -27,6 +28,13 @@ void draw () {
   rowWin();
   colWin();
   diagWin();
+  
+  if(playCount >= 9 && gameOver == false){
+    textAlign(CENTER);
+    textSize(60);
+    fill(0);
+    text("It's a tie!", width/2, height/2);
+  }
   
   //Create a grid pattern on the screen with vertical and horizontal lines
   for (int i = 0; i < width; i++) {
@@ -134,7 +142,7 @@ void bot(){
   Random rand = new Random();
   int n = rand.nextInt(9);
   while(gridSpots[n] == 1){
-    n = rand.nextInt(8);
+    n = rand.nextInt(9);
   }
   if(n == 0){
     image(imgo, 0, 0, w, h);
@@ -190,36 +198,42 @@ void rowWin(){
     textSize(25);
     fill(0);
     text("Player wins", width/2, height/2);
-  }
-  else if(botSpots[0] == 1 && botSpots[1] == 1 && botSpots[2] == 1){
-    textAlign(CENTER);
-    textSize(25);
-    fill(0);
-    text("Bot wins", width/2, height/2); 
+    gameOver = true;
   }
   else if(playerSpots[3] == 1 && playerSpots[4] == 1 && playerSpots[5] == 1){
     textAlign(CENTER);
     textSize(25);
     fill(0);
     text("Player wins", width/2, height/2); 
+    gameOver = true;
+  }
+  else if(playerSpots[6] == 1 && playerSpots[7] == 1 && playerSpots[8] == 1){
+    textAlign(CENTER);
+    textSize(25);
+    fill(0);
+    text("Player wins", width/2, height/2);
+    gameOver = true;
+  }
+  else if(botSpots[0] == 1 && botSpots[1] == 1 && botSpots[2] == 1){
+    textAlign(CENTER);
+    textSize(25);
+    fill(0);
+    text("Bot wins", width/2, height/2);
+    gameOver = true;
   }
   else if(botSpots[3] == 1 && botSpots[4] == 1 && botSpots[5] == 1){
     textAlign(CENTER);
     textSize(25);
     fill(0);
     text("Bot wins", width/2, height/2); 
-  }
-  else if(playerSpots[6] == 1 && playerSpots[7] == 1 && playerSpots[8] == 1){
-    textAlign(CENTER);
-    textSize(25);
-    fill(0);
-    text("Player wins", width/2, height/2); 
+    gameOver = true;
   }
   else if(botSpots[6] == 1 && botSpots[7] == 1 && botSpots[8] == 1){
     textAlign(CENTER);
     textSize(25);
     fill(0);
-    text("Bot wins", width/2, height/2); 
+    text("Bot wins", width/2, height/2);
+    gameOver = true;
   }
 }
 
@@ -228,37 +242,43 @@ void colWin(){
     textAlign(CENTER);
     textSize(25);
     fill(0);
-    text("Player wins", width/2, height/2);   
+    text("Player wins", width/2, height/2);
+    gameOver = true;
   }
   else if(playerSpots[1] == 1 && playerSpots[4] == 1 && playerSpots[7] == 1){
     textAlign(CENTER);
     textSize(25);
     fill(0);
-    text("Player wins", width/2, height/2); 
+    text("Player wins", width/2, height/2);
+    gameOver = true;
   }
   else if(playerSpots[2] == 1 && playerSpots[5] == 1 && playerSpots[8] == 1){
     textAlign(CENTER);
     textSize(25);
     fill(0);
-    text("Player wins", width/2, height/2);  
+    text("Player wins", width/2, height/2); 
+    gameOver = true;
   }
   else if(botSpots[0] == 1 && botSpots[3] == 1 && botSpots[6] == 1){
     textAlign(CENTER);
     textSize(25);
     fill(0);
     text("Bot wins", width/2, height/2);   
+    gameOver = true;
   }
   else if(botSpots[1] == 1 && botSpots[4] == 1 && botSpots[7] == 1){
     textAlign(CENTER);
     textSize(25);
     fill(0);
     text("Bot wins", width/2, height/2);  
+    gameOver = true;
   }
   else if(botSpots[2] == 1 && botSpots[5] == 1 && botSpots[8] == 1){
     textAlign(CENTER);
     textSize(25);
     fill(0);
-    text("Bot wins", width/2, height/2);  
+    text("Bot wins", width/2, height/2);
+    gameOver = true;
   }
 }
 
@@ -267,24 +287,28 @@ void diagWin(){
     textAlign(CENTER);
     textSize(25);
     fill(0);
-    text("Player wins", width/2, height/2);  
+    text("Player wins", width/2, height/2);
+    gameOver = true;
   }
  else if(playerSpots[2] == 1 && playerSpots[4] == 1 && playerSpots[6] == 1){
     textAlign(CENTER);
     textSize(25);
     fill(0);
     text("Player wins", width/2, height/2);  
+    gameOver = true;
   }
   else if(botSpots[0] == 1 && botSpots[4] == 1 && botSpots[8] == 1){
     textAlign(CENTER);
     textSize(25);
     fill(0);
-    text("Bot wins", width/2, height/2);  
+    text("Bot wins", width/2, height/2); 
+    gameOver = true;
   }
  else if(botSpots[2] == 1 && botSpots[4] == 1 && botSpots[6] == 1){
     textAlign(CENTER);
     textSize(25);
     fill(0);
-    text("Bot wins", width/2, height/2);  
+    text("Bot wins", width/2, height/2); 
+    gameOver = true;
   }
 }
