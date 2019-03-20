@@ -1,3 +1,4 @@
+//test
 PImage imgx, imgo; 
 
 int w;              //Width of the grid
@@ -49,44 +50,12 @@ void draw () {
   //}
   imgx = loadImage("x.png");
   imgo = loadImage("o.png");
-  //image(imgx, 0, 0, 100, 100);
-  //image(imgo, 200, 200, 100, 100);
 }
 
 //The coordinates of the 9 positions are 
-// (0  , 0), (0  , 100), (0  , 200)
-// (100, 0), (100, 100), (100, 200)
-// (200, 0), (200, 100), (200, 200)
-
-//void mouseClicked(){
-// if(mouseX < 100 & mouseY < 100){
-//   image(imgx, 0, 0, 100, 100);
-// }
-// else if (mouseX < 100 & mouseY > 100 & mouseY < 200){
-//   image(imgx, 0, 100, 100, 100);
-// }
-// else if (mouseX < 100 & mouseY > 200){
-//   image(imgx, 0, 200, 100, 100);
-// }
-// else if (mouseX > 100 & mouseX < 200 & mouseY < 100){
-//   image(imgx, 100, 0, 100, 100);
-// }
-// else if (mouseX > 100 & mouseX < 200 & mouseY > 100 & mouseY < 200){
-//   image(imgx, 100, 100, 100, 100);
-// }
-// else if (mouseX > 100 & mouseX < 200 & mouseY > 200){
-//   image(imgx, 100, 200, 100, 100);
-// }
-// else if (mouseX > 200 & mouseY < 100){
-//   image(imgx, 200, 0, 100, 100);
-// }
-//  else if (mouseX > 200 & mouseY > 100 & mouseY < 200){
-//   image(imgx, 200, 100, 100, 100);
-// }
-// else if (mouseX > 200 & mouseY > 200){
-//   image(imgx, 200, 200, 100, 100);
-// }
-//}
+// (0  ,   0), (300,   0), (600, 0)
+// (0  , 300), (300, 300), (600, 300)
+// (0  , 600), (360, 600), (600, 600)
 
 void mouseClicked() {
   if(mouseX < w && mouseY < h){ 
@@ -125,10 +94,4 @@ void mouseClicked() {
      println("user pressed at " + mouseX + ", " + mouseY);   
      image(imgx, 600, 600, w, h);
   }
-  //else if(mouseX < w + 300 && mouseY < h + 300){
-  //      image(imgx, 300, 300, w, h);
-  //}
-  //else if(mouseX < w + 600 && mouseY < h + 600){
-  //      image(imgx, 600, 600, w, h);
-  //}
 }
