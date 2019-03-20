@@ -1,16 +1,19 @@
+import java.util.Random;
+
 PImage imgx, imgo; 
 
 int w;              //Width of the grid
 int h;              //Height of the grid
-int bs = 300;           //block size
+int bs = 300;             //block size
 int playCount = 0;        //number of user turns
 int numCols = 3;
 int numRows = 3;
 int[][] grid = new int [numRows][numCols];
+int[] gridSpots = new int [9];
 
 void setup () {
   size (900, 900);            //size will only take literals, not variables
-  background(255);            //make the background white
+  background(255, 255, 255);            //make the background white
   w = width / 3;
   h = height / 3;
   //reset();
@@ -48,8 +51,9 @@ void draw () {
   //}
   imgx = loadImage("x.png");
   imgo = loadImage("o.png");
-  //image(imgx, 0, 0, 100, 100);
-  //image(imgo, 200, 200, 100, 100);
+  if(playCount % 2 == 1){
+    bot();
+  }
 }
 
 
@@ -57,37 +61,100 @@ void mouseClicked() {
   if(mouseX < w && mouseY < h){ 
       println("user pressed at " + mouseX + ", " + mouseY);
       image(imgx, 0, 0, w, h);
+      gridSpots[0] = 1;
+      playCount++;
   }
   else if (mouseX <= 2*w && mouseX >= w && mouseY <= h){
      println("user pressed at " + mouseX + ", " + mouseY);   
      image(imgx, w, 0, w, h);
+     gridSpots[1] = 1;
+     playCount++;
   }
   else if (mouseX <= 3*w && mouseX >= 2*w && mouseY <= h){
      println("user pressed at " + mouseX + ", " + mouseY);   
      image(imgx, 2*w, 0, w, h);
+     gridSpots[2] = 1;
+     playCount++;
   }
   else if (mouseX <= w && mouseY >= h && mouseY <= 2*h){
      println("user pressed at " + mouseX + ", " + mouseY);   
      image(imgx, 0, h, w, h);
+     gridSpots[3] = 1;
+     playCount++;
   }
   else if (mouseX >= w && mouseX <= 2*w && mouseY >= h && mouseY <= 2*h){
      println("user pressed at " + mouseX + ", " + mouseY);   
      image(imgx, w, h, w, h);
+     gridSpots[4] = 1;
+     playCount++;
   }
   else if (mouseX >= 2*w && mouseX <= 3*w && mouseY >= h && mouseY <= 2*h){
      println("user pressed at " + mouseX + ", " + mouseY);   
      image(imgx, 2*w, h, w, h);
+     gridSpots[5] = 1;
+     playCount++;
   }
   else if (mouseX <= w && mouseY >= 2*h && mouseY <= 3*h){
      println("user pressed at " + mouseX + ", " + mouseY);   
      image(imgx, 0, 2*h, w, h);
+     gridSpots[6] = 1;
+     playCount++;
   }
   else if (mouseX >= w && mouseX <= 2*w && mouseY >= 2*h && mouseY <= 3*h){
      println("user pressed at " + mouseX + ", " + mouseY);   
      image(imgx, w, 2*h, w, h);
+     gridSpots[7] = 1;
+     playCount++;
   }
   else if (mouseX >= 2*w && mouseX <= 3*w && mouseY >= 2*h && mouseY <= 3*h){
      println("user pressed at " + mouseX + ", " + mouseY);   
      image(imgx, 2*w, 2*h, w, h);
+     gridSpots[8] = 1;
+     playCount++;
   }
+}
+
+void bot(){
+  Random rand = new Random();
+  int n = rand.nextInt(9);
+  while(gridSpots[n] == 1){
+    n = rand.nextInt(8);
+  }
+  if(n == 0){
+    image(imgo, 0, 0, w, h);
+    gridSpots[n] = 1;
+  }
+  else if(n == 1){
+    image(imgo, w, 0, w, h);
+    gridSpots[n] = 1;
+  }
+  else if(n == 2){
+    image(imgo, w*2, 0, w, h);
+    gridSpots[n] = 1;
+  }
+  else if(n == 3){
+    image(imgo, 0, h, w, h);
+    gridSpots[n] = 1;
+  }
+  else if(n == 4){
+    image(imgo, w, h, w, h);
+    gridSpots[n] = 1;
+  }
+  else if(n == 5){
+    image(imgo, w*2, h, w, h);
+    gridSpots[n] = 1;
+  }
+  else if(n == 6){
+    image(imgo, 0, h*2, w, h);
+    gridSpots[n] = 1;
+  }
+  else if(n == 7){
+    image(imgo, w, h*2, w, h);
+    gridSpots[n] = 1;
+  }
+  else if(n == 8){
+    image(imgo, w*2, h*2, w, h);
+    gridSpots[n] = 1;
+  }
+  playCount++;
 }
