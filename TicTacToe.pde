@@ -1,4 +1,3 @@
-//test
 PImage imgx, imgo; 
 
 int w;              //Width of the grid
@@ -50,48 +49,46 @@ void draw () {
   //}
   imgx = loadImage("x.png");
   imgo = loadImage("o.png");
+  //image(imgx, 0, 0, 100, 100);
+  //image(imgo, 200, 200, 100, 100);
 }
 
-//The coordinates of the 9 positions are 
-// (0  ,   0), (300,   0), (600, 0)
-// (0  , 300), (300, 300), (600, 300)
-// (0  , 600), (360, 600), (600, 600)
 
 void mouseClicked() {
   if(mouseX < w && mouseY < h){ 
       println("user pressed at " + mouseX + ", " + mouseY);
       image(imgx, 0, 0, w, h);
   }
-  else if (mouseX <= 600 && mouseX >= 300 && mouseY <= 300){
+  else if (mouseX <= 2*w && mouseX >= w && mouseY <= h){
      println("user pressed at " + mouseX + ", " + mouseY);   
-     image(imgx, 300, 0, w, h);
+     image(imgx, w, 0, w, h);
   }
-  else if (mouseX <= 900 && mouseX >= 600 && mouseY <= 300){
+  else if (mouseX <= 3*w && mouseX >= 2*w && mouseY <= h){
      println("user pressed at " + mouseX + ", " + mouseY);   
-     image(imgx, 600, 0, w, h);
+     image(imgx, 2*w, 0, w, h);
   }
-  else if (mouseX <= 300 && mouseY >= 300 && mouseY <= 600){
+  else if (mouseX <= w && mouseY >= h && mouseY <= 2*h){
      println("user pressed at " + mouseX + ", " + mouseY);   
-     image(imgx, 0, 300, w, h);
+     image(imgx, 0, h, w, h);
   }
-  else if (mouseX >= 300 && mouseX <= 600 && mouseY >= 300 && mouseY <= 600){
+  else if (mouseX >= w && mouseX <= 2*w && mouseY >= h && mouseY <= 2*h){
      println("user pressed at " + mouseX + ", " + mouseY);   
-     image(imgx, 300, 300, w, h);
+     image(imgx, w, h, w, h);
   }
-  else if (mouseX >= 600 && mouseX <= 900 && mouseY >= 300 && mouseY <= 600){
+  else if (mouseX >= 2*w && mouseX <= 3*w && mouseY >= h && mouseY <= 2*h){
      println("user pressed at " + mouseX + ", " + mouseY);   
-     image(imgx, 600, 300, w, h);
+     image(imgx, 2*w, h, w, h);
   }
-  else if (mouseX <= 300 && mouseY >= 600 && mouseY <= 900){
+  else if (mouseX <= w && mouseY >= 2*h && mouseY <= 3*h){
      println("user pressed at " + mouseX + ", " + mouseY);   
-     image(imgx, 0, 600, w, h);
+     image(imgx, 0, 2*h, w, h);
   }
-  else if (mouseX >= 300 && mouseX <= 600 && mouseY >= 600 && mouseY <= 900){
+  else if (mouseX >= w && mouseX <= 2*w && mouseY >= 2*h && mouseY <= 3*h){
      println("user pressed at " + mouseX + ", " + mouseY);   
-     image(imgx, 300, 600, w, h);
+     image(imgx, w, 2*h, w, h);
   }
-  else if (mouseX >= 600 && mouseX <= 900 && mouseY >= 600 && mouseY <= 900){
+  else if (mouseX >= 2*w && mouseX <= 3*w && mouseY >= 2*h && mouseY <= 3*h){
      println("user pressed at " + mouseX + ", " + mouseY);   
-     image(imgx, 600, 600, w, h);
+     image(imgx, 2*w, 2*h, w, h);
   }
 }
