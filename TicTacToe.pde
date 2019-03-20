@@ -2,7 +2,7 @@ PImage imgx, imgo;
 
 int w;              //Width of the grid
 int h;              //Height of the grid
-int bs = 300;             //block size
+int bs = w / 3;           //block size
 int playCount = 0;        //number of user turns
 int numCols = 3;
 int numRows = 3;
@@ -10,10 +10,9 @@ int[][] grid = new int [numRows][numCols];
 
 void setup () {
   size (900, 900);            //size will only take literals, not variables
-  background(255, 255, 255);            //make the background white
+  background(255);            //make the background white
   w = width / 3;
   h = height / 3;
-  ellipseMode(CORNER);
   //reset();
   smooth();
 }
