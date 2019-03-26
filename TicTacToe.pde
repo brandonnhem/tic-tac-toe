@@ -4,6 +4,7 @@ PImage imgx, imgo;
 
 int w;              //Width of the grid
 int h;              //Height of the grid
+int choice;
 int bs = 300;             //block size
 int playCount = 0;        //number of user turns
 int numCols = 3;
@@ -13,11 +14,21 @@ int[] gridSpots = new int [9];
 int[] playerSpots = new int [9];
 int[] botSpots = new int [9];
 boolean gameOver = false;
+boolean won = false;
 
 void setup () {
   size (900, 900);            //size will only take literals, not variable
   w = width / 3;
   h = height / 3;
+  Random rand = new Random();
+  choice = rand.nextInt(2);
+  if (choice == 1) {
+    imgx = loadImage("x.png");
+    imgo = loadImage("o.png");
+  } else {
+    imgo = loadImage("x.png");
+    imgx = loadImage("o.png");
+  }
   //reset();
   smooth();
 }
@@ -31,8 +42,6 @@ void draw () {
   for (int i = 0; i < height; i++) {
     line (0, i * bs, width, i * bs);
   }
-  imgx = loadImage("x.png");
-  imgo = loadImage("o.png");
   //Checks for win scenarios each iteration
   printPlayer();
   printBot();
@@ -52,6 +61,15 @@ void draw () {
       playerSpots = new int [9];
       botSpots = new int [9];
       gameOver = false;
+      Random rand = new Random();
+      choice = rand.nextInt(2);
+      if (choice == 1) {
+        imgx = loadImage("x.png");
+        imgo = loadImage("o.png");
+      } else {
+        imgo = loadImage("x.png");
+        imgx = loadImage("o.png");
+      }
     }
   } else if (playCount % 2 == 1) {
     bot();
@@ -212,7 +230,7 @@ void bot() {
 }
 
 void isTie() {
-  if (playCount >= 9) {
+  if (playCount >= 9 && !won) {
     textAlign(CENTER);
     textSize(60);
     fill(0);
