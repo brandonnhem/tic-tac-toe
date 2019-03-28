@@ -2,7 +2,7 @@
 An interactive game of tic-tac-toe that is powered by Processing.
 
 # Pre-reqs:
-Download Processing ide: https://processing.org/download/     (if you can run processing, you can run our game!)
+Download ![Processing ide](https://processing.org/download/)     (if you can run processing, you can run our game!)
 
 # To get the game working:
 1.) Create a folder called "TicTacToe". 
