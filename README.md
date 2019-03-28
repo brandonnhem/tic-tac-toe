@@ -18,14 +18,22 @@ Instructions:
 Once open, begin the game by clicking on any spot in the 9 x 9 grid. When you are greeted with a win, lose, or tie screen, press the spacebar to restart the game. Or you could close the game and open it again.
 
 Example Photos:
+
 **Figure 1 - Win State (Player is O in this scenario)** 
+
 ![Screenshot](https://imgur.com/ET5J9RA.png)
 
+
 **Figure 2 - Lose State (Player is X in this scenario)**
+
 ![Screenshot](https://imgur.com/BxLel2M.png)
 
+
 **Figure 3 - Tie State**
+
 ![Screenshot](https://imgur.com/XIQrxpz.png)
 
+
 **Figure 4 - Play State (nobody has won or less .. yet)**
+
 ![Screenshot](https://imgur.com/uRglKKx.png)
