@@ -19,13 +19,13 @@ Once open, begin the game by clicking on any spot in the 9 x 9 grid. When you ar
 
 Example Photos:
 Figure 1 - Win State (Player is O in this scenario) 
-![Screenshot](https://imgur.com/ET5J9RA)
+![Screenshot](https://imgur.com/ET5J9RA.png)
 
 Figure 2 - Lose State (Player is X in this scenario)
-![Screenshot](https://imgur.com/BxLel2M)
+![Screenshot](https://imgur.com/BxLel2M.png)
 
 Figure 3 - Tie State
-![Screenshot](https://imgur.com/XIQrxpz)
+![Screenshot](https://imgur.com/XIQrxpz.png)
 
 Figure 4 - Play State (nobody has won or less .. yet)
-![Screenshot](https://imgur.com/uRglKKx)
+![Screenshot](https://imgur.com/uRglKKx.png)
