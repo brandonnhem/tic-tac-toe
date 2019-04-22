@@ -1,6 +1,6 @@
 import java.util.Random; // Used to have the bot pick a spot and who goes first
 
-PImage imgx, imgo; 
+PImage imgx, imgo; // used to import images into the game
 
 int w;              // Width of the grid
 int h;              // Height of the grid
@@ -17,6 +17,10 @@ boolean gameOver = false;
 boolean won = false;
 int playerScore = 0; // score of the player
 int botScore = 0;    // score of the bot
+boolean firstClick = false; // used to clear the text of the score, once turned true, the text disappears
+boolean playerWon = false; 
+boolean botWon = false;
+boolean alreadyCalled = false; // used in draw(), ensures the updateScore() method is only called once
 
 void setup () { //<>//
   /**
@@ -52,6 +56,13 @@ void draw () { //<>//
   for (int i = 0; i < height; i++) {
     line (0, i * bs, width, i * bs);
   }
+  if(!firstClick) { // displays the score of the player and the bot before the game starts, once the player clicks, the text disappears
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Player Score: " + playerScore, (width/2), (height/2)+ 50);
+    text("Bot Score: " + botScore, (width/2), (height/2)); 
+  }
   printPlayer(); // constantly prints out where the player's symbols are
   printBot();    // constantly prints out where the bot's symbols are
   //Checks for win scenarios each iteration
@@ -61,6 +72,10 @@ void draw () { //<>//
   //If not won, check if tie
   if(playCount >= 9) isTie();
   if (gameOver) {
+    if(!alreadyCalled) { // this ensures that updateScore() is only called once
+      updateScore();
+      alreadyCalled = true; // now it won't be called
+    }
     fill (0);
     textSize(30);
     textAlign(CENTER);
@@ -73,6 +88,10 @@ void draw () { //<>//
       botSpots = new int [9];
       gameOver = false;
       won = false;
+      firstClick = false;
+      playerWon = false;
+      botWon = false;
+      alreadyCalled = false;
       Random rand = new Random();
       choice = rand.nextInt(2);
       if (choice == 1) {
@@ -93,6 +112,7 @@ void mouseClicked() {
       This monitors where the player has clicked, when the user clicks in a valid spot, it updates the array
       that stores the player's taken spots. Also then increases the play count.
   **/
+  firstClick = true;
   if (mouseX < w && mouseY < h) { 
     //println("user pressed at " + mouseX + ", " + mouseY);
     if (gridSpots[0] != 1) {
@@ -254,6 +274,12 @@ void bot() {
   playCount++; // increase how many plays have gone by
 }
 
+void advice() {
+  /**
+      Gives advice to the player depending where they hover
+  **/
+}
+
 void isTie() {
   /**
       Determines if the game has resulted in a tie
@@ -278,7 +304,7 @@ void rowWin() {
     text("Player wins", width/2, height/2);
     gameOver = true;
     won = true;
-    playerScore++;
+    playerWon = true;
   } else if (playerSpots[3] == 1 && playerSpots[4] == 1 && playerSpots[5] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -286,7 +312,7 @@ void rowWin() {
     text("Player wins", width/2, height/2); 
     gameOver = true;
     won = true;
-    playerScore++;
+    playerWon = true;
   } else if (playerSpots[6] == 1 && playerSpots[7] == 1 && playerSpots[8] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -294,7 +320,7 @@ void rowWin() {
     text("Player wins", width/2, height/2);
     gameOver = true;
     won = true;
-    playerScore++;
+    playerWon = true;
   } else if (botSpots[0] == 1 && botSpots[1] == 1 && botSpots[2] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -302,7 +328,7 @@ void rowWin() {
     text("Bot wins", width/2, height/2);
     gameOver = true;
     won = true;
-    botScore++;
+    botWon = true;
   } else if (botSpots[3] == 1 && botSpots[4] == 1 && botSpots[5] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -310,7 +336,7 @@ void rowWin() {
     text("Bot wins", width/2, height/2); 
     gameOver = true;
     won = true;
-    botScore++;
+    botWon = true;
   } else if (botSpots[6] == 1 && botSpots[7] == 1 && botSpots[8] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -318,7 +344,7 @@ void rowWin() {
     text("Bot wins", width/2, height/2);
     gameOver = true;
     won = true;
-    botScore++;
+    botWon = true;
   }
 }
 
@@ -333,7 +359,7 @@ void colWin() {
     text("Player wins", width/2, height/2);
     gameOver = true;
     won = true;
-    playerScore++;
+    playerWon = true;
   } else if (playerSpots[1] == 1 && playerSpots[4] == 1 && playerSpots[7] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -341,7 +367,7 @@ void colWin() {
     text("Player wins", width/2, height/2);
     gameOver = true;
     won = true;
-    playerScore++;
+    playerWon = true;
   } else if (playerSpots[2] == 1 && playerSpots[5] == 1 && playerSpots[8] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -349,7 +375,7 @@ void colWin() {
     text("Player wins", width/2, height/2); 
     gameOver = true;
     won = true;
-    playerScore++;
+    playerWon = true;
   } else if (botSpots[0] == 1 && botSpots[3] == 1 && botSpots[6] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -357,7 +383,7 @@ void colWin() {
     text("Bot wins", width/2, height/2);   
     gameOver = true;
     won = true;
-    botScore++;
+    botWon = true;
   } else if (botSpots[1] == 1 && botSpots[4] == 1 && botSpots[7] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -365,7 +391,7 @@ void colWin() {
     text("Bot wins", width/2, height/2);  
     gameOver = true;
     won = true;
-    botScore++;
+    botWon = true;
   } else if (botSpots[2] == 1 && botSpots[5] == 1 && botSpots[8] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -373,7 +399,7 @@ void colWin() {
     text("Bot wins", width/2, height/2);
     gameOver = true;
     won = true;
-    botScore++;
+    botWon = true;
   }
 }
 
@@ -388,7 +414,7 @@ void diagWin() {
     text("Player wins", width/2, height/2);
     gameOver = true;
     won = true;
-    playerScore++;
+    playerWon = true;
   } else if (playerSpots[2] == 1 && playerSpots[4] == 1 && playerSpots[6] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -396,7 +422,7 @@ void diagWin() {
     text("Player wins", width/2, height/2);  
     gameOver = true;
     won = true;
-    playerScore++;
+    playerWon = true;
   } else if (botSpots[0] == 1 && botSpots[4] == 1 && botSpots[8] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -404,7 +430,7 @@ void diagWin() {
     text("Bot wins", width/2, height/2); 
     gameOver = true;
     won = true;
-    botScore++;
+    botWon = true;
   } else if (botSpots[2] == 1 && botSpots[4] == 1 && botSpots[6] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -412,6 +438,14 @@ void diagWin() {
     text("Bot wins", width/2, height/2); 
     gameOver = true;
     won = true;
-    botScore++;
+    botWon = true;
   }
+}
+
+void updateScore() {
+  /**
+      Updates the score of the game
+  **/
+  if(playerWon) { playerScore++; }
+  if(botWon) { botScore++; }
 }
