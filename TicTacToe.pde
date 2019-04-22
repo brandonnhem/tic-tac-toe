@@ -118,7 +118,7 @@ void draw () { //<>//
     bot();
   }
   if(!gameOver){
-    advice();
+    takenSpot();
     detectPossibleWin();
     detectPossibleFork();
   }
@@ -196,7 +196,7 @@ void mouseClicked() {
   }
 }
 
-void advice() {
+void takenSpot() {
   /**
       Gives advice to the player depending where they hover
   **/
