@@ -43,6 +43,7 @@ void setup () { //<>//
   smooth(); // smooths out the lines
 }
 
+
 void draw () { //<>//
   /**
       This draws in the window for the game. Here we can change the background color. Most of the logic of the
@@ -104,6 +105,10 @@ void draw () { //<>//
     }
   } else if (playCount % 2 == 1) {
     bot();
+  }
+  if(!gameOver){
+    advice();
+    detectPossibleWin();
   }
 }
 
@@ -177,6 +182,195 @@ void mouseClicked() {
       playCount++;
     }
   }
+}
+
+void advice() {
+  /**
+      Gives advice to the player depending where they hover
+  **/
+  
+  // Lets the user know that a spot is taken... why did I spend time on this...
+  if ((mouseX < w && mouseY < h) && (gridSpots[0] == 1)) { 
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("This spot is taken.", (w/2), (h/2));
+  } else if ((mouseX <= 2*w && mouseX >= w && mouseY <= h) && (gridSpots[1] == 1)) {
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("This spot is taken.", (w*1.5), (h/2));
+  } else if ((mouseX <= 3*w && mouseX >= 2*w && mouseY <= h) && (gridSpots[2] == 1)) {
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("This spot is taken.", (w*2.5), (h/2));
+  } else if ((mouseX <= w && mouseY >= h && mouseY <= 2*h) && (gridSpots[3] == 1)) {
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("This spot is taken.", (w/2), (h*1.5));
+  } else if ((mouseX >= w && mouseX <= 2*w && mouseY >= h && mouseY <= 2*h) && (gridSpots[4] == 1)) {
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("This spot is taken.", (w*1.5), (h*1.5));
+  } else if ((mouseX >= 2*w && mouseX <= 3*w && mouseY >= h && mouseY <= 2*h) && (gridSpots[5] == 1)) {
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("This spot is taken.", (w*2.5), (h*1.5));
+  } else if ((mouseX <= w && mouseY >= 2*h && mouseY <= 3*h) && (gridSpots[6] == 1)) {
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("This spot is taken.", (w/2), (h*2.5));
+  } else if ((mouseX >= w && mouseX <= 2*w && mouseY >= 2*h && mouseY <= 3*h) && (gridSpots[7] == 1)) {
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("This spot is taken.", (w*1.5), (h*2.5));
+  } else if ((mouseX >= 2*w && mouseX <= 3*w && mouseY >= 2*h && mouseY <= 3*h) && (gridSpots[8] == 1)) {
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("This spot is taken.", (w*2.5), (h*2.5));
+  }
+}
+
+void detectPossibleWin() {
+  /**
+      Detects if there is a possible spot the player can win in. All types of wins supported.
+  **/
+  // ROWS (RIGHT | MIDDLE | LEFT)
+  if(playerSpots[0] == 1 && playerSpots[1] == 1 && gridSpots[2] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w*2.5), (h/2));
+  } else if(playerSpots[3] == 1 && playerSpots[4] == 1 && gridSpots[5] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w*2.5), (h*1.5));
+  } else if(playerSpots[6] == 1 && playerSpots[7] == 1 && gridSpots[8] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w*2.5), (h*2.5));
+  } else if(playerSpots[0] == 1 && playerSpots[2] == 1 && gridSpots[1] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w*1.5), (h/2));
+  } else if(playerSpots[3] == 1 && playerSpots[5] == 1 && gridSpots[4] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w*1.5), (h*1.5));
+  } else if(playerSpots[6] == 1 && playerSpots[8] == 1 && gridSpots[7] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w*1.5), (h*2.5));
+  } else if(playerSpots[2] == 1 && playerSpots[1] == 1 && gridSpots[0] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w/2), (h/2));
+  } else if(playerSpots[5] == 1 && playerSpots[4] == 1 && gridSpots[3] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w/2), (h*1.5));
+  } else if(playerSpots[8] == 1 && playerSpots[7] == 1 && gridSpots[6] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w/2), (h*2.5));
+  }
+  
+  // COLUMNS (BOTTOM | MIDDLE | TOP)
+  if(playerSpots[0] == 1 && playerSpots[3] == 1 && gridSpots[6] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w/2), (h*2.5));
+  } else if(playerSpots[1] == 1 && playerSpots[4] == 1 && gridSpots[7] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w*1.5), (h*2.5));
+  } else if(playerSpots[2] == 1 && playerSpots[5] == 1 && gridSpots[8] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w*2.5), (h*2.5));
+  } else if(playerSpots[0] == 1 && playerSpots[6] == 1 && gridSpots[3] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w/2), (h*1.5));
+  } else if(playerSpots[1] == 1 && playerSpots[7] == 1 && gridSpots[4] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w*1.5), (h*1.5));
+  } else if(playerSpots[2] == 1 && playerSpots[8] == 1 && gridSpots[5] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w*2.5), (h*1.5));
+  } else if(playerSpots[6] == 1 && playerSpots[3] == 1 && gridSpots[0] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w/2), (h/2));
+  } else if(playerSpots[7] == 1 && playerSpots[4] == 1 && gridSpots[1] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w*1.5), (h/2));
+  } else if(playerSpots[8] == 1 && playerSpots[5] == 1 && gridSpots[2] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w*2.5), (h/2));
+  }
+  
+  // DIAG (BOTTOM || MIDDLE || TOP)
+  if(playerSpots[0] == 1 && playerSpots[4] == 1 && gridSpots[8] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w*2.5), (h*2.5));
+  } else if(playerSpots[0] == 1 && playerSpots[8] == 1 && gridSpots[4] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w*1.5), (h*1.5));
+  } else if(playerSpots[4] == 1 && playerSpots[8] == 1 && gridSpots[0] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w/2), (h/2));
+  } else if(playerSpots[2] == 1 && playerSpots[4] == 1 && gridSpots[6] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w/2), (h*2.5));
+  } else if(playerSpots[2] == 1 && playerSpots[6] == 1 && gridSpots[4] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w*1.5), (h*1.5));
+  } else if(playerSpots[6] == 1 && playerSpots[4] == 1 && gridSpots[2] == 0){
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Pick this spot to win!", (w*2.5), (h/2));
+  }
+  
 }
 
 void printPlayer() {
@@ -272,12 +466,6 @@ void bot() {
     }
   }
   playCount++; // increase how many plays have gone by
-}
-
-void advice() {
-  /**
-      Gives advice to the player depending where they hover
-  **/
 }
 
 void isTie() {
