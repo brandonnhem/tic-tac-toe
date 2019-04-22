@@ -21,6 +21,7 @@ boolean firstClick = false; // used to clear the text of the score, once turned 
 boolean playerWon = false; 
 boolean botWon = false;
 boolean alreadyCalled = false; // used in draw(), ensures the updateScore() method is only called once
+boolean playerIsX = false;
 
 void setup () { //<>//
   /**
@@ -36,9 +37,11 @@ void setup () { //<>//
   if (choice == 1) {
     imgx = loadImage("x.png"); // loads the image for x 
     imgo = loadImage("o.png"); // loads the image for o
+    playerIsX = true;
   } else {
     imgo = loadImage("x.png"); // loads the image for o
     imgx = loadImage("o.png"); // loads the image for x
+    playerIsX = false;
   }
   smooth(); // smooths out the lines
 }
@@ -63,6 +66,11 @@ void draw () { //<>//
     textAlign(CENTER);
     text("Player Score: " + playerScore, (width/2), (height/2)+ 50);
     text("Bot Score: " + botScore, (width/2), (height/2)); 
+    if(playerIsX) {
+      text("You play as X", (width/2), (height/2) + 100);
+    } else {
+      text("You play as O", (width/2), (height/2) + 100);
+    }
   }
   printPlayer(); // constantly prints out where the player's symbols are
   printBot();    // constantly prints out where the bot's symbols are
@@ -243,132 +251,180 @@ void detectPossibleWin() {
       Detects if there is a possible spot the player can win in. All types of wins supported.
   **/
   // ROWS (RIGHT | MIDDLE | LEFT)
-  if(playerSpots[0] == 1 && playerSpots[1] == 1 && gridSpots[2] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w*2.5), (h/2));
-  } else if(playerSpots[3] == 1 && playerSpots[4] == 1 && gridSpots[5] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w*2.5), (h*1.5));
-  } else if(playerSpots[6] == 1 && playerSpots[7] == 1 && gridSpots[8] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w*2.5), (h*2.5));
-  } else if(playerSpots[0] == 1 && playerSpots[2] == 1 && gridSpots[1] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w*1.5), (h/2));
-  } else if(playerSpots[3] == 1 && playerSpots[5] == 1 && gridSpots[4] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w*1.5), (h*1.5));
-  } else if(playerSpots[6] == 1 && playerSpots[8] == 1 && gridSpots[7] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w*1.5), (h*2.5));
-  } else if(playerSpots[2] == 1 && playerSpots[1] == 1 && gridSpots[0] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w/2), (h/2));
-  } else if(playerSpots[5] == 1 && playerSpots[4] == 1 && gridSpots[3] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w/2), (h*1.5));
-  } else if(playerSpots[8] == 1 && playerSpots[7] == 1 && gridSpots[6] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w/2), (h*2.5));
+  if ((mouseX <= 3*w && mouseX >= 2*w && mouseY <= h) && (gridSpots[2] == 0)) {
+    if(playerSpots[0] == 1 && playerSpots[1] == 1 && gridSpots[2] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w*2.5), (h/2));
+    }
+  } else if ((mouseX >= 2*w && mouseX <= 3*w && mouseY >= h && mouseY <= 2*h) && (gridSpots[5] == 0)) {
+    if(playerSpots[3] == 1 && playerSpots[4] == 1 && gridSpots[5] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w*2.5), (h*1.5));
+    }
+  } else if ((mouseX >= 2*w && mouseX <= 3*w && mouseY >= 2*h && mouseY <= 3*h) && (gridSpots[8] == 0)) {
+    if(playerSpots[6] == 1 && playerSpots[7] == 1 && gridSpots[8] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w*2.5), (h*2.5));
+    }
+  } else if ((mouseX <= 2*w && mouseX >= w && mouseY <= h) && (gridSpots[1] == 0)) {
+    if(playerSpots[0] == 1 && playerSpots[2] == 1 && gridSpots[1] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w*1.5), (h/2));
+    }
+  } else if ((mouseX >= w && mouseX <= 2*w && mouseY >= h && mouseY <= 2*h) && (gridSpots[4] == 0)) {
+    if(playerSpots[3] == 1 && playerSpots[5] == 1 && gridSpots[4] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w*1.5), (h*1.5));
+    }
+  } else if ((mouseX >= w && mouseX <= 2*w && mouseY >= 2*h && mouseY <= 3*h) && (gridSpots[7] == 0)) {
+    if(playerSpots[6] == 1 && playerSpots[8] == 1 && gridSpots[7] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w*1.5), (h*2.5));
+    }
+  } else if ((mouseX < w && mouseY < h) && (gridSpots[0] == 0)) { 
+    if(playerSpots[2] == 1 && playerSpots[1] == 1 && gridSpots[0] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w/2), (h/2));
+    }
+  } else if ((mouseX <= w && mouseY >= h && mouseY <= 2*h) && (gridSpots[3] == 0)) {
+    if(playerSpots[5] == 1 && playerSpots[4] == 1 && gridSpots[3] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w/2), (h*1.5));
+    }
+  } else if ((mouseX <= w && mouseY >= 2*h && mouseY <= 3*h) && (gridSpots[6] == 0)) {
+    if(playerSpots[8] == 1 && playerSpots[7] == 1 && gridSpots[6] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w/2), (h*2.5));
+    }
   }
   
   // COLUMNS (BOTTOM | MIDDLE | TOP)
-  if(playerSpots[0] == 1 && playerSpots[3] == 1 && gridSpots[6] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w/2), (h*2.5));
-  } else if(playerSpots[1] == 1 && playerSpots[4] == 1 && gridSpots[7] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w*1.5), (h*2.5));
-  } else if(playerSpots[2] == 1 && playerSpots[5] == 1 && gridSpots[8] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w*2.5), (h*2.5));
-  } else if(playerSpots[0] == 1 && playerSpots[6] == 1 && gridSpots[3] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w/2), (h*1.5));
-  } else if(playerSpots[1] == 1 && playerSpots[7] == 1 && gridSpots[4] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w*1.5), (h*1.5));
-  } else if(playerSpots[2] == 1 && playerSpots[8] == 1 && gridSpots[5] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w*2.5), (h*1.5));
-  } else if(playerSpots[6] == 1 && playerSpots[3] == 1 && gridSpots[0] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w/2), (h/2));
-  } else if(playerSpots[7] == 1 && playerSpots[4] == 1 && gridSpots[1] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w*1.5), (h/2));
-  } else if(playerSpots[8] == 1 && playerSpots[5] == 1 && gridSpots[2] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w*2.5), (h/2));
+  if ((mouseX <= w && mouseY >= 2*h && mouseY <= 3*h) && (gridSpots[6] == 0)) {
+    if(playerSpots[0] == 1 && playerSpots[3] == 1 && gridSpots[6] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w/2), (h*2.5));
+    }
+  } else if ((mouseX >= w && mouseX <= 2*w && mouseY >= 2*h && mouseY <= 3*h) && (gridSpots[7] == 0)) {
+    if(playerSpots[1] == 1 && playerSpots[4] == 1 && gridSpots[7] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w*1.5), (h*2.5));
+    }
+  } else if ((mouseX >= 2*w && mouseX <= 3*w && mouseY >= 2*h && mouseY <= 3*h) && (gridSpots[8] == 0)) {
+    if(playerSpots[2] == 1 && playerSpots[5] == 1 && gridSpots[8] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w*2.5), (h*2.5));
+    }
+  } else if ((mouseX <= w && mouseY >= h && mouseY <= 2*h) && (gridSpots[3] == 0)) {
+    if(playerSpots[0] == 1 && playerSpots[6] == 1 && gridSpots[3] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w/2), (h*1.5));
+    }
+  } else if ((mouseX >= w && mouseX <= 2*w && mouseY >= h && mouseY <= 2*h) && (gridSpots[4] == 0)) {
+    if(playerSpots[1] == 1 && playerSpots[7] == 1 && gridSpots[4] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w*1.5), (h*1.5));
+    }
+  } else if ((mouseX >= 2*w && mouseX <= 3*w && mouseY >= h && mouseY <= 2*h) && (gridSpots[5] == 0)) {
+    if(playerSpots[2] == 1 && playerSpots[8] == 1 && gridSpots[5] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w*2.5), (h*1.5));
+    }
+  } else if ((mouseX < w && mouseY < h) && (gridSpots[0] == 0)) { 
+    if(playerSpots[6] == 1 && playerSpots[3] == 1 && gridSpots[0] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w/2), (h/2));
+    }
+  } else if ((mouseX <= 2*w && mouseX >= w && mouseY <= h) && (gridSpots[1] == 0)) {
+    if(playerSpots[7] == 1 && playerSpots[4] == 1 && gridSpots[1] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w*1.5), (h/2));
+    }
+  } else if ((mouseX <= 3*w && mouseX >= 2*w && mouseY <= h) && (gridSpots[2] == 0)) {
+    if(playerSpots[8] == 1 && playerSpots[5] == 1 && gridSpots[2] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w*2.5), (h/2));
+    }
   }
   
   // DIAG (BOTTOM || MIDDLE || TOP)
-  if(playerSpots[0] == 1 && playerSpots[4] == 1 && gridSpots[8] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w*2.5), (h*2.5));
-  } else if(playerSpots[0] == 1 && playerSpots[8] == 1 && gridSpots[4] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w*1.5), (h*1.5));
-  } else if(playerSpots[4] == 1 && playerSpots[8] == 1 && gridSpots[0] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w/2), (h/2));
-  } else if(playerSpots[2] == 1 && playerSpots[4] == 1 && gridSpots[6] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w/2), (h*2.5));
-  } else if(playerSpots[2] == 1 && playerSpots[6] == 1 && gridSpots[4] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w*1.5), (h*1.5));
-  } else if(playerSpots[6] == 1 && playerSpots[4] == 1 && gridSpots[2] == 0){
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Pick this spot to win!", (w*2.5), (h/2));
+  if ((mouseX >= 2*w && mouseX <= 3*w && mouseY >= 2*h && mouseY <= 3*h) && (gridSpots[8] == 0)) {
+    if(playerSpots[0] == 1 && playerSpots[4] == 1 && gridSpots[8] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w*2.5), (h*2.5));
+    }
+  } else if ((mouseX >= w && mouseX <= 2*w && mouseY >= h && mouseY <= 2*h) && (gridSpots[4] == 0)) {
+    if(playerSpots[0] == 1 && playerSpots[8] == 1 && gridSpots[4] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w*1.5), (h*1.5));
+    }
+  } else if ((mouseX < w && mouseY < h) && (gridSpots[0] == 0)) { 
+    if(playerSpots[4] == 1 && playerSpots[8] == 1 && gridSpots[0] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w/2), (h/2));
+    }
+  } else if ((mouseX <= w && mouseY >= 2*h && mouseY <= 3*h) && (gridSpots[6] == 0)) {
+    if(playerSpots[2] == 1 && playerSpots[4] == 1 && gridSpots[6] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w/2), (h*2.5));
+    }
+  } else if ((mouseX >= w && mouseX <= 2*w && mouseY >= h && mouseY <= 2*h) && (gridSpots[4] == 0)) {
+    if(playerSpots[2] == 1 && playerSpots[6] == 1 && gridSpots[4] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w*1.5), (h*1.5));
+    }
+  } else if ((mouseX <= 3*w && mouseX >= 2*w && mouseY <= h) && (gridSpots[2] == 0)) {
+    if(playerSpots[6] == 1 && playerSpots[4] == 1 && gridSpots[2] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Pick this spot to win!", (w*2.5), (h/2));
+    }
   }
   
 }
