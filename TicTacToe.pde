@@ -21,7 +21,7 @@ boolean firstClick = false; // used to clear the text of the score, once turned 
 boolean playerWon = false; 
 boolean botWon = false;
 boolean alreadyCalled = false; // used in draw(), ensures the updateScore() method is only called once
-boolean playerIsX = false;
+boolean playerIsX = false; // tell the player what they are before the game starts, false is default indicating O, true is X
 
 void setup () { //<>//
   /**
@@ -68,7 +68,8 @@ void draw () { //<>//
     text("Bot Score: " + botScore, (width/2), (height/2)); 
     if(playerIsX) {
       text("You play as X", (width/2), (height/2) + 100);
-    } else {
+    } 
+    if(!playerIsX) {
       text("You play as O", (width/2), (height/2) + 100);
     }
   }
@@ -106,9 +107,11 @@ void draw () { //<>//
       if (choice == 1) {
         imgx = loadImage("x.png");
         imgo = loadImage("o.png");
+        playerIsX = true;
       } else {
         imgo = loadImage("x.png");
         imgx = loadImage("o.png");
+        playerIsX = false;
       }
     }
   } else if (playCount % 2 == 1) {
@@ -117,6 +120,7 @@ void draw () { //<>//
   if(!gameOver){
     advice();
     detectPossibleWin();
+    detectPossibleFork();
   }
 }
 
@@ -244,6 +248,41 @@ void advice() {
       textAlign(CENTER);
       text("This spot is taken.", (w*2.5), (h*2.5));
   }
+}
+
+void detectPossibleFork() {
+  /**
+      Detects if there a possible fork that the player can create.
+      A "fork" is a move that creates two winning moves.
+      To understand all this jumbled up code, it basically every POSSIBLE fork.
+      Forks can only be really made in the corners of the grid or with the middle spot.
+  **/
+  if ((mouseX < w && mouseY < h) && (gridSpots[0] == 0) && ((playerSpots[2] == 1 && playerSpots[4] == 1) || (playerSpots[6] == 1 && playerSpots[4] == 1) || (playerSpots[2] == 1 && playerSpots[6] == 1) || (playerSpots[1] == 1 && playerSpots[4] == 1) || (playerSpots[3] == 1 && playerSpots[4] == 1))) {
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Make a fork here.", (w/2), (h/2) + 50);
+  } else if ((mouseX >= 2*w && mouseX <= 3*w && mouseY >= 2*h && mouseY <= 3*h) && (gridSpots[8] == 0) && ((playerSpots[2] == 1 && playerSpots[4] == 1) || (playerSpots[6] == 1 && playerSpots[4] == 1) || (playerSpots[2] == 1 && playerSpots[6] == 1) || (playerSpots[4] == 1 && playerSpots[5] == 1) || (playerSpots[4] == 1 && playerSpots[7] == 1))) {
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Make a fork here.", (w*2.5), (h*2.5) + 50);
+ } else if ((mouseX <= 3*w && mouseX >= 2*w && mouseY <= h) && (gridSpots[2] == 0) && ((playerSpots[0] == 1 && playerSpots[4] == 1) || (playerSpots[8] == 1 && playerSpots[4] == 1) || (playerSpots[0] == 1 && playerSpots[8] == 1) || (playerSpots[4] == 1 && playerSpots[5] == 1) || (playerSpots[1] == 1 && playerSpots[4] == 1))) {
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Make a fork here.", (w*2.5), (h/2) + 50);
+ } else if ((mouseX <= w && mouseY >= 2*h && mouseY <= 3*h) && (gridSpots[6] == 0) && ((playerSpots[0] == 1 && playerSpots[4] == 1) || (playerSpots[4] == 1 && playerSpots[8] == 1) || (playerSpots[0] == 1 && playerSpots[8] == 1) || (playerSpots[3] == 1 && playerSpots[4] == 1) || (playerSpots[4] == 1 && playerSpots[8] == 1))) {
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Make a fork here.", (w/2), (h*2.5) + 50);
+ } else if ((mouseX >= w && mouseX <= 2*w && mouseY >= h && mouseY <= 2*h) && (gridSpots[4] == 0) && ((playerSpots[0] == 1 && playerSpots[2] == 1) || (playerSpots[0] == 1 && playerSpots[6] == 1) || (playerSpots[6] == 1 && playerSpots[8] == 1) || (playerSpots[2] == 1 && playerSpots[8] == 1))) {
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Make a fork here.", (w*1.5), (h*1.5) + 50);
+ }
 }
 
 void detectPossibleWin() {
