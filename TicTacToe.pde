@@ -64,13 +64,13 @@ void draw () { //<>//
     fill(0);
     textSize(30);
     textAlign(CENTER);
-    text("Player Score: " + playerScore, (width/2), (height/2)+ 50);
+    text("Player Score: " + playerScore, (width/2), (height/2) - 50);
     text("Bot Score: " + botScore, (width/2), (height/2)); 
     if(playerIsX) {
-      text("You play as X", (width/2), (height/2) + 100);
+      text("You play as X", (width/2), (height/2) + 50);
     } 
     if(!playerIsX) {
-      text("You play as O", (width/2), (height/2) + 100);
+      text("You play as O", (width/2), (height/2) + 50);
     }
   }
   printPlayer(); // constantly prints out where the player's symbols are
