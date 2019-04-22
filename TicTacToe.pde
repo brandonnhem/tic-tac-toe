@@ -15,6 +15,8 @@ int[] playerSpots = new int [9];  // spots that the user has taken
 int[] botSpots = new int [9];   // spots that the bot has taken
 boolean gameOver = false;
 boolean won = false;
+int playerScore = 0; // score of the player
+int botScore = 0;    // score of the bot
 
 void setup () { //<>//
   /**
@@ -276,6 +278,7 @@ void rowWin() {
     text("Player wins", width/2, height/2);
     gameOver = true;
     won = true;
+    playerScore++;
   } else if (playerSpots[3] == 1 && playerSpots[4] == 1 && playerSpots[5] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -283,6 +286,7 @@ void rowWin() {
     text("Player wins", width/2, height/2); 
     gameOver = true;
     won = true;
+    playerScore++;
   } else if (playerSpots[6] == 1 && playerSpots[7] == 1 && playerSpots[8] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -290,6 +294,7 @@ void rowWin() {
     text("Player wins", width/2, height/2);
     gameOver = true;
     won = true;
+    playerScore++;
   } else if (botSpots[0] == 1 && botSpots[1] == 1 && botSpots[2] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -297,6 +302,7 @@ void rowWin() {
     text("Bot wins", width/2, height/2);
     gameOver = true;
     won = true;
+    botScore++;
   } else if (botSpots[3] == 1 && botSpots[4] == 1 && botSpots[5] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -304,6 +310,7 @@ void rowWin() {
     text("Bot wins", width/2, height/2); 
     gameOver = true;
     won = true;
+    botScore++;
   } else if (botSpots[6] == 1 && botSpots[7] == 1 && botSpots[8] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -311,6 +318,7 @@ void rowWin() {
     text("Bot wins", width/2, height/2);
     gameOver = true;
     won = true;
+    botScore++;
   }
 }
 
@@ -325,6 +333,7 @@ void colWin() {
     text("Player wins", width/2, height/2);
     gameOver = true;
     won = true;
+    playerScore++;
   } else if (playerSpots[1] == 1 && playerSpots[4] == 1 && playerSpots[7] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -332,6 +341,7 @@ void colWin() {
     text("Player wins", width/2, height/2);
     gameOver = true;
     won = true;
+    playerScore++;
   } else if (playerSpots[2] == 1 && playerSpots[5] == 1 && playerSpots[8] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -339,6 +349,7 @@ void colWin() {
     text("Player wins", width/2, height/2); 
     gameOver = true;
     won = true;
+    playerScore++;
   } else if (botSpots[0] == 1 && botSpots[3] == 1 && botSpots[6] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -346,6 +357,7 @@ void colWin() {
     text("Bot wins", width/2, height/2);   
     gameOver = true;
     won = true;
+    botScore++;
   } else if (botSpots[1] == 1 && botSpots[4] == 1 && botSpots[7] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -353,6 +365,7 @@ void colWin() {
     text("Bot wins", width/2, height/2);  
     gameOver = true;
     won = true;
+    botScore++;
   } else if (botSpots[2] == 1 && botSpots[5] == 1 && botSpots[8] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -360,6 +373,7 @@ void colWin() {
     text("Bot wins", width/2, height/2);
     gameOver = true;
     won = true;
+    botScore++;
   }
 }
 
@@ -374,6 +388,7 @@ void diagWin() {
     text("Player wins", width/2, height/2);
     gameOver = true;
     won = true;
+    playerScore++;
   } else if (playerSpots[2] == 1 && playerSpots[4] == 1 && playerSpots[6] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -381,6 +396,7 @@ void diagWin() {
     text("Player wins", width/2, height/2);  
     gameOver = true;
     won = true;
+    playerScore++;
   } else if (botSpots[0] == 1 && botSpots[4] == 1 && botSpots[8] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -388,6 +404,7 @@ void diagWin() {
     text("Bot wins", width/2, height/2); 
     gameOver = true;
     won = true;
+    botScore++;
   } else if (botSpots[2] == 1 && botSpots[4] == 1 && botSpots[6] == 1) {
     textAlign(CENTER);
     textSize(60);
@@ -395,5 +412,6 @@ void diagWin() {
     text("Bot wins", width/2, height/2); 
     gameOver = true;
     won = true;
+    botScore++;
   }
 }
