@@ -121,6 +121,7 @@ void draw () { //<>//
     takenSpot();
     detectPossibleWin();
     detectPossibleFork();
+    detectPossibleBotWin();
   }
 }
 
@@ -255,7 +256,6 @@ void detectPossibleFork() {
       Detects if there a possible fork that the player can create.
       A "fork" is a move that creates two winning moves.
       To understand all this jumbled up code, it basically every POSSIBLE fork.
-      Forks can only be really made in the corners of the grid or with the middle spot.
   **/
   if ((mouseX < w && mouseY < h) && (gridSpots[0] == 0) && ((playerSpots[2] == 1 && playerSpots[4] == 1) || (playerSpots[6] == 1 && playerSpots[4] == 1) || (playerSpots[2] == 1 && playerSpots[6] == 1) || (playerSpots[1] == 1 && playerSpots[4] == 1) || (playerSpots[3] == 1 && playerSpots[4] == 1))) {
       fill(0);
@@ -282,6 +282,26 @@ void detectPossibleFork() {
       textSize(30);
       textAlign(CENTER);
       text("Make a fork here.", (w*1.5), (h*1.5) + 50);
+ } else if ((mouseX >= w && mouseX <= 2*w && mouseY >= 2*h && mouseY <= 3*h) && (gridSpots[7] == 0) && ((playerSpots[4] == 1 && playerSpots[8] == 1) || (playerSpots[4] == 1 && playerSpots[6] == 1))) {
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Make a fork here.", (w*1.5), (h*2.5) + 50);
+ } else if ((mouseX >= 2*w && mouseX <= 3*w && mouseY >= h && mouseY <= 2*h) && (gridSpots[5] == 0) && ((playerSpots[4] == 1 && playerSpots[8] == 1) || (playerSpots[4] == 1 && playerSpots[2] == 1))) {
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Make a fork here.", (w*2.5), (h*1.5) + 50);
+ } else if ((mouseX <= w && mouseY >= h && mouseY <= 2*h) && (gridSpots[3] == 0) && ((playerSpots[4] == 1 && playerSpots[6] == 1) || (playerSpots[0] == 1 && playerSpots[4] == 1))) {
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Make a fork here.", (w/2), (h*1.5) + 50);
+ } else if ((mouseX <= 2*w && mouseX >= w && mouseY <= h) && (gridSpots[1] == 1) && ((playerSpots[0] == 1 && playerSpots[4] == 1) || (playerSpots[2] == 1 && playerSpots[4] == 1))) {
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Make a fork here.", (w*1.5), (h/2) + 50);
  }
 }
 
@@ -465,7 +485,188 @@ void detectPossibleWin() {
       text("Pick this spot to win!", (w*2.5), (h/2));
     }
   }
+}
+
+void detectPossibleBotWin() {
+  /**
+      Detects if there is a winning move that the bot could make, if so, advise the player to block it if they hover over the square.
+  **/
+  // ROWS (RIGHT | MIDDLE | LEFT)
+  if ((mouseX <= 3*w && mouseX >= 2*w && mouseY <= h) && (gridSpots[2] == 0)) {
+    if(botSpots[0] == 1 && botSpots[1] == 1 && gridSpots[2] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w*2.5), (h/2) - 50);
+    }
+  } else if ((mouseX >= 2*w && mouseX <= 3*w && mouseY >= h && mouseY <= 2*h) && (gridSpots[5] == 0)) {
+    if(botSpots[3] == 1 && botSpots[4] == 1 && gridSpots[5] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w*2.5), (h*1.5) - 50);
+    }
+  } else if ((mouseX >= 2*w && mouseX <= 3*w && mouseY >= 2*h && mouseY <= 3*h) && (gridSpots[8] == 0)) {
+    if(botSpots[6] == 1 && botSpots[7] == 1 && gridSpots[8] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w*2.5), (h*2.5) - 50);
+    }
+  } else if ((mouseX <= 2*w && mouseX >= w && mouseY <= h) && (gridSpots[1] == 0)) {
+    if(botSpots[0] == 1 && botSpots[2] == 1 && gridSpots[1] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w*1.5), (h/2) - 50);
+    }
+  } else if ((mouseX >= w && mouseX <= 2*w && mouseY >= h && mouseY <= 2*h) && (gridSpots[4] == 0)) {
+    if(botSpots[3] == 1 && botSpots[5] == 1 && gridSpots[4] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w*1.5), (h*1.5) - 50);
+    }
+  } else if ((mouseX >= w && mouseX <= 2*w && mouseY >= 2*h && mouseY <= 3*h) && (gridSpots[7] == 0)) {
+    if(botSpots[6] == 1 && botSpots[8] == 1 && gridSpots[7] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w*1.5), (h*2.5) - 50);
+    }
+  } else if ((mouseX < w && mouseY < h) && (gridSpots[0] == 0)) { 
+    if(botSpots[2] == 1 && botSpots[1] == 1 && gridSpots[0] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w/2), (h/2) - 50);
+    }
+  } else if ((mouseX <= w && mouseY >= h && mouseY <= 2*h) && (gridSpots[3] == 0)) {
+    if(botSpots[5] == 1 && botSpots[4] == 1 && gridSpots[3] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w/2), (h*1.5) - 50);
+    }
+  } else if ((mouseX <= w && mouseY >= 2*h && mouseY <= 3*h) && (gridSpots[6] == 0)) {
+    if(botSpots[8] == 1 && botSpots[7] == 1 && gridSpots[6] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w/2), (h*2.5) - 50);
+    }
+  }
   
+  // COLUMNS (BOTTOM | MIDDLE | TOP)
+  if ((mouseX <= w && mouseY >= 2*h && mouseY <= 3*h) && (gridSpots[6] == 0)) {
+    if(botSpots[0] == 1 && botSpots[3] == 1 && gridSpots[6] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w/2), (h*2.5) - 50);
+    }
+  } else if ((mouseX >= w && mouseX <= 2*w && mouseY >= 2*h && mouseY <= 3*h) && (gridSpots[7] == 0)) {
+    if(botSpots[1] == 1 && botSpots[4] == 1 && gridSpots[7] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w*1.5), (h*2.5) - 50);
+    }
+  } else if ((mouseX >= 2*w && mouseX <= 3*w && mouseY >= 2*h && mouseY <= 3*h) && (gridSpots[8] == 0)) {
+    if(botSpots[2] == 1 && botSpots[5] == 1 && gridSpots[8] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w*2.5), (h*2.5) - 50);
+    }
+  } else if ((mouseX <= w && mouseY >= h && mouseY <= 2*h) && (gridSpots[3] == 0)) {
+    if(botSpots[0] == 1 && botSpots[6] == 1 && gridSpots[3] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w/2), (h*1.5) - 50);
+    }
+  } else if ((mouseX >= w && mouseX <= 2*w && mouseY >= h && mouseY <= 2*h) && (gridSpots[4] == 0)) {
+    if(botSpots[1] == 1 && botSpots[7] == 1 && gridSpots[4] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w*1.5), (h*1.5) - 50);
+    }
+  } else if ((mouseX >= 2*w && mouseX <= 3*w && mouseY >= h && mouseY <= 2*h) && (gridSpots[5] == 0)) {
+    if(botSpots[2] == 1 && botSpots[8] == 1 && gridSpots[5] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w*2.5), (h*1.5) - 50);
+    }
+  } else if ((mouseX < w && mouseY < h) && (gridSpots[0] == 0)) { 
+    if(botSpots[6] == 1 && botSpots[3] == 1 && gridSpots[0] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w/2), (h/2) - 50);
+    }
+  } else if ((mouseX <= 2*w && mouseX >= w && mouseY <= h) && (gridSpots[1] == 0)) {
+    if(botSpots[7] == 1 && botSpots[4] == 1 && gridSpots[1] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w*1.5), (h/2) - 50);
+    }
+  } else if ((mouseX <= 3*w && mouseX >= 2*w && mouseY <= h) && (gridSpots[2] == 0)) {
+    if(botSpots[8] == 1 && botSpots[5] == 1 && gridSpots[2] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w*2.5), (h/2) - 50);
+    }
+  }
+  
+  // DIAG (BOTTOM || MIDDLE || TOP)
+  if ((mouseX >= 2*w && mouseX <= 3*w && mouseY >= 2*h && mouseY <= 3*h) && (gridSpots[8] == 0)) {
+    if(botSpots[0] == 1 && botSpots[4] == 1 && gridSpots[8] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w*2.5), (h*2.5) - 50);
+    }
+  } else if ((mouseX >= w && mouseX <= 2*w && mouseY >= h && mouseY <= 2*h) && (gridSpots[4] == 0)) {
+    if(botSpots[0] == 1 && botSpots[8] == 1 && gridSpots[4] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w*1.5), (h*1.5) - 50);
+    }
+  } else if ((mouseX < w && mouseY < h) && (gridSpots[0] == 0)) { 
+    if(botSpots[4] == 1 && botSpots[8] == 1 && gridSpots[0] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w/2), (h/2) - 50);
+    }
+  } else if ((mouseX <= w && mouseY >= 2*h && mouseY <= 3*h) && (gridSpots[6] == 0)) {
+    if(botSpots[2] == 1 && botSpots[4] == 1 && gridSpots[6] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w/2), (h*2.5) - 50);
+    }
+  } else if ((mouseX >= w && mouseX <= 2*w && mouseY >= h && mouseY <= 2*h) && (gridSpots[4] == 0)) {
+    if(botSpots[2] == 1 && botSpots[6] == 1 && gridSpots[4] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w*1.5), (h*1.5) - 50);
+    }
+  } else if ((mouseX <= 3*w && mouseX >= 2*w && mouseY <= h) && (gridSpots[2] == 0)) {
+    if(botSpots[6] == 1 && botSpots[4] == 1 && gridSpots[2] == 0){
+      fill(0);
+      textSize(30);
+      textAlign(CENTER);
+      text("Block here!", (w*2.5), (h/2) - 50);
+    }
+  }
 }
 
 void printPlayer() {
