@@ -17,8 +17,10 @@ To play the game, you will be playing against a bot and hopefully **beat** that 
 # Instructions:
 Once open, begin the game by clicking on any spot in the 9 x 9 grid. When you are greeted with a win, lose, or tie screen, press the spacebar to restart the game. Or you could close the game and open it again.
 
+# Please check out our [Project Releases for our progress!](https://github.com/brandonnhem/tic-tac-toe/releases)
+
 <details>
-  <summary>Example Photos:</summary>
+  <summary>Example Photos(_click to open_):</summary>
     <p>
 
 Figure 1 - Win State 
@@ -87,4 +89,3 @@ Figure 13 - Winning Move
 
   <\p>
 <\details>
-
