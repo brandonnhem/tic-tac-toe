@@ -20,7 +20,7 @@ Once open, begin the game by clicking on any spot in the 9 x 9 grid. When you ar
 # Please check out our [Project Releases for our progress!](https://github.com/brandonnhem/tic-tac-toe/releases)
 
 <details>
-  <summary>Example Photos(_click to open_):</summary>
+  <summary>Example Photos(click to open):</summary>
     <p>
 
 Figure 1 - Win State 
