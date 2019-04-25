@@ -17,69 +17,73 @@ To play the game, you will be playing against a bot and hopefully **beat** that 
 # Instructions:
 Once open, begin the game by clicking on any spot in the 9 x 9 grid. When you are greeted with a win, lose, or tie screen, press the spacebar to restart the game. Or you could close the game and open it again.
 
-# Example Photos:
-
-### Figure 1 - Win State ###
+<details>
+  <summary>Example Photos:</summary>
+    <p>
+Figure 1 - Win State 
 
 ![Screenshot](https://imgur.com/w8ndOeD.png)
 
 
-### Figure 2 - Lose State ###
+Figure 2 - Lose State
 
 ![Screenshot](https://imgur.com/TZJpHsT.png)
 
 
-### Figure 3 - Tie State ###
+Figure 3 - Tie State
 
 ![Screenshot](https://imgur.com/GQx7Cjv.png)
 
 
-### Figure 4 - Play State (nobody has won or loss .. yet) ###
+Figure 4 - Play State (nobody has won or loss .. yet)
 
 ![Screenshot](https://imgur.com/uRglKKx.png)
 
 
-### Figure 5 - Game Start Up (without score) ### 
+Figure 5 - Game Start Up (without score)
 
 ![Screenshot](https://imgur.com/FQZ6FFq.png)
 
 
-### Figure 6 - Game Start Up (with score) ###
+Figure 6 - Game Start Up (with score)
 
 ![Screenshot](https://imgur.com/j2aM2HV.png)
 
 
-### Figure 7 - Spot Taken ### 
+Figure 7 - Spot Taken
 
 ![Screenshot](https://imgur.com/xKuctpX.png)
 
 
-### Figure 8 - Fork Here ###
+Figure 8 - Fork Here
 
 ![Screenshot](https://imgur.com/NBg0o0Q.png)
 
 
-### Figure 9 - Block Fork ###
+Figure 9 - Block Fork
 
 ![Screenshot](https://imgur.com/7ghL5dr.png)
 
 
-### Figure 10 - Need to Block ###
+Figure 10 - Need to Block
 
 ![Screenshot](https://imgur.com/K5fCdFg.png)
 
 
-### Figure 11 - Block Here ###
+Figure 11 - Block Here
 
 ![Screenshot](https://imgur.com/pNlRK9T.png)
 
 
-### Figure 12 - Better Move Possible ###
+Figure 12 - Better Move Possible
 
 ![Screenshot](https://imgur.com/9j7RjeB.png)
 
 
-### Figure 13 - Winning Move ###
+Figure 13 - Winning Move
 
 ![Screenshot](https://imgur.com/YmHyoos.png)
+
+  <\p>
+<\details>
 
