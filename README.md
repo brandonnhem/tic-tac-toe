@@ -7,7 +7,7 @@ Download ![Processing ide](https://processing.org/download/)     (if you can run
 # To get the game working:
 1. Create a folder called "TicTacToe". 
 2. Download the .pde file and place it the folder you just created.
-3. Then place the two png files in the same folder.
+3. Then place the two .png files in the same folder.
 4. Open the .pde file
 5. Press the play button on the top left corner
 
