@@ -63,11 +63,11 @@ void draw () {
     line (0, i * bs, width, i * bs);
   }
   if (!firstClick) { // displays the score of the player and the bot before the game starts, once the player clicks, the text disappears
-    fill(0,128,0);
+    fill(0, 128, 0);
     textSize(30);
     textAlign(CENTER);
     text("Player Score: " + playerScore, (width/2), (height/2)- 50);
-    fill(178,34,34);
+    fill(178, 34, 34);
     text("Bot Score: " + botScore, (width/2), (height/2)); 
     fill(0);
     if (playerIsX) {
@@ -91,10 +91,10 @@ void draw () {
       alreadyCalled = true; // now it won't be called
     }
     if (botWon) {
-      fill(178,34,34);
+      fill(178, 34, 34);
     }
     if (playerWon) {
-       fill(0,128,0); 
+      fill(0, 128, 0);
     }
     textSize(30);
     textAlign(CENTER);
@@ -142,73 +142,75 @@ void mouseClicked() {
    This monitors where the player has clicked, when the user clicks in a valid spot, it updates the array
    that stores the player's taken spots. Also then increases the play count.
    **/
-  firstClick = true;
-  if (mouseX < w && mouseY < h) { 
-    //println("user pressed at " + mouseX + ", " + mouseY);
-    if (gridSpots[0] != 1) {
-      gridSpots[0] = 1;
-      playerSpots[0] = 1;
-      playCount++;
+  if (!gameOver) {
+    firstClick = true;
+    if (mouseX < w && mouseY < h) { 
+      //println("user pressed at " + mouseX + ", " + mouseY);
+      if (gridSpots[0] != 1) {
+        gridSpots[0] = 1;
+        playerSpots[0] = 1;
+        playCount++;
+      }
+    } else if (mouseX <= 2*w && mouseX >= w && mouseY <= h) {
+      //println("user pressed at " + mouseX + ", " + mouseY);   
+      if (gridSpots[1] != 1) {
+        gridSpots[1] = 1;
+        playerSpots[1] = 1;
+        playCount++;
+      }
+    } else if (mouseX <= 3*w && mouseX >= 2*w && mouseY <= h) {
+      //println("user pressed at " + mouseX + ", " + mouseY);   
+      if (gridSpots[2] != 1) {
+        gridSpots[2] = 1;
+        playerSpots[2] = 1;
+        playCount++;
+      }
+    } else if (mouseX <= w && mouseY >= h && mouseY <= 2*h) {
+      //println("user pressed at " + mouseX + ", " + mouseY);   
+      if (gridSpots[3] != 1) {
+        gridSpots[3] = 1;
+        playerSpots[3] = 1;
+        playCount++;
+      }
+    } else if (mouseX >= w && mouseX <= 2*w && mouseY >= h && mouseY <= 2*h) {
+      //println("user pressed at " + mouseX + ", " + mouseY);   
+      if (gridSpots[4] != 1) {
+        gridSpots[4] = 1;
+        playerSpots[4] = 1;
+        playCount++;
+      }
+    } else if (mouseX >= 2*w && mouseX <= 3*w && mouseY >= h && mouseY <= 2*h) {
+      //println("user pressed at " + mouseX + ", " + mouseY);   
+      if (gridSpots[5] != 1) {
+        gridSpots[5] = 1;
+        playerSpots[5] = 1;
+        playCount++;
+      }
+    } else if (mouseX <= w && mouseY >= 2*h && mouseY <= 3*h) {
+      //println("user pressed at " + mouseX + ", " + mouseY);   
+      if (gridSpots[6] != 1) {
+        gridSpots[6] = 1;
+        playerSpots[6] = 1;
+        playCount++;
+      }
+    } else if (mouseX >= w && mouseX <= 2*w && mouseY >= 2*h && mouseY <= 3*h) {
+      //println("user pressed at " + mouseX + ", " + mouseY);   
+      if (gridSpots[7] != 1) {
+        gridSpots[7] = 1;
+        playerSpots[7] = 1;
+        playCount++;
+      }
+    } else if (mouseX >= 2*w && mouseX <= 3*w && mouseY >= 2*h && mouseY <= 3*h) {
+      //println("user pressed at " + mouseX + ", " + mouseY);   
+      if (gridSpots[8] != 1) {
+        gridSpots[8] = 1;
+        playerSpots[8] = 1;
+        playCount++;
+      }
     }
-  } else if (mouseX <= 2*w && mouseX >= w && mouseY <= h) {
-    //println("user pressed at " + mouseX + ", " + mouseY);   
-    if (gridSpots[1] != 1) {
-      gridSpots[1] = 1;
-      playerSpots[1] = 1;
-      playCount++;
-    }
-  } else if (mouseX <= 3*w && mouseX >= 2*w && mouseY <= h) {
-    //println("user pressed at " + mouseX + ", " + mouseY);   
-    if (gridSpots[2] != 1) {
-      gridSpots[2] = 1;
-      playerSpots[2] = 1;
-      playCount++;
-    }
-  } else if (mouseX <= w && mouseY >= h && mouseY <= 2*h) {
-    //println("user pressed at " + mouseX + ", " + mouseY);   
-    if (gridSpots[3] != 1) {
-      gridSpots[3] = 1;
-      playerSpots[3] = 1;
-      playCount++;
-    }
-  } else if (mouseX >= w && mouseX <= 2*w && mouseY >= h && mouseY <= 2*h) {
-    //println("user pressed at " + mouseX + ", " + mouseY);   
-    if (gridSpots[4] != 1) {
-      gridSpots[4] = 1;
-      playerSpots[4] = 1;
-      playCount++;
-    }
-  } else if (mouseX >= 2*w && mouseX <= 3*w && mouseY >= h && mouseY <= 2*h) {
-    //println("user pressed at " + mouseX + ", " + mouseY);   
-    if (gridSpots[5] != 1) {
-      gridSpots[5] = 1;
-      playerSpots[5] = 1;
-      playCount++;
-    }
-  } else if (mouseX <= w && mouseY >= 2*h && mouseY <= 3*h) {
-    //println("user pressed at " + mouseX + ", " + mouseY);   
-    if (gridSpots[6] != 1) {
-      gridSpots[6] = 1;
-      playerSpots[6] = 1;
-      playCount++;
-    }
-  } else if (mouseX >= w && mouseX <= 2*w && mouseY >= 2*h && mouseY <= 3*h) {
-    //println("user pressed at " + mouseX + ", " + mouseY);   
-    if (gridSpots[7] != 1) {
-      gridSpots[7] = 1;
-      playerSpots[7] = 1;
-      playCount++;
-    }
-  } else if (mouseX >= 2*w && mouseX <= 3*w && mouseY >= 2*h && mouseY <= 3*h) {
-    //println("user pressed at " + mouseX + ", " + mouseY);   
-    if (gridSpots[8] != 1) {
-      gridSpots[8] = 1;
-      playerSpots[8] = 1;
-      playCount++;
-    }
+    userToWin = false;
+    botToWin = false;
   }
-  userToWin = false;
-  botToWin = false;
 }
 
 void takenSpot() {
@@ -1463,7 +1465,7 @@ void isTie() {
   if (!won) {
     textAlign(CENTER);
     textSize(60);
-    fill(102,102,255);
+    fill(102, 102, 255);
     text("It's a tie!", width/2, height/2);
     gameOver = true;
   }
@@ -1476,7 +1478,7 @@ void rowWin() {
   if (playerSpots[0] == 1 && playerSpots[1] == 1 && playerSpots[2] == 1) {
     textAlign(CENTER);
     textSize(60);
-    fill(0,128,0);
+    fill(0, 128, 0);
     text("Player wins in " + playCount + " turns", width/2, height/2);
     gameOver = true;
     won = true;
@@ -1484,7 +1486,7 @@ void rowWin() {
   } else if (playerSpots[3] == 1 && playerSpots[4] == 1 && playerSpots[5] == 1) {
     textAlign(CENTER);
     textSize(60);
-    fill(0,128,0);
+    fill(0, 128, 0);
     text("Player wins in " + playCount + " turns", width/2, height/2);
     gameOver = true;
     won = true;
@@ -1492,7 +1494,7 @@ void rowWin() {
   } else if (playerSpots[6] == 1 && playerSpots[7] == 1 && playerSpots[8] == 1) {
     textAlign(CENTER);
     textSize(60);
-    fill(0,128,0);
+    fill(0, 128, 0);
     text("Player wins in " + playCount + " turns", width/2, height/2);
     gameOver = true;
     won = true;
@@ -1500,7 +1502,7 @@ void rowWin() {
   } else if (botSpots[0] == 1 && botSpots[1] == 1 && botSpots[2] == 1) {
     textAlign(CENTER);
     textSize(60);
-    fill(178,34,34);
+    fill(178, 34, 34);
     text("Bot wins in " + playCount + " turns", width/2, height/2);
     gameOver = true;
     won = true;
@@ -1508,7 +1510,7 @@ void rowWin() {
   } else if (botSpots[3] == 1 && botSpots[4] == 1 && botSpots[5] == 1) {
     textAlign(CENTER);
     textSize(60);
-    fill(178,34,34);
+    fill(178, 34, 34);
     text("Bot wins in " + playCount + " turns", width/2, height/2);
     gameOver = true;
     won = true;
@@ -1516,7 +1518,7 @@ void rowWin() {
   } else if (botSpots[6] == 1 && botSpots[7] == 1 && botSpots[8] == 1) {
     textAlign(CENTER);
     textSize(60);
-    fill(178,34,34);
+    fill(178, 34, 34);
     text("Bot wins in " + playCount + " turns", width/2, height/2);
     gameOver = true;
     won = true;
@@ -1531,7 +1533,7 @@ void colWin() {
   if (playerSpots[0] == 1 && playerSpots[3] == 1 && playerSpots[6] == 1) {
     textAlign(CENTER);
     textSize(60);
-    fill(0,128,0);
+    fill(0, 128, 0);
     text("Player wins in " + playCount + " turns", width/2, height/2);
     gameOver = true;
     won = true;
@@ -1539,7 +1541,7 @@ void colWin() {
   } else if (playerSpots[1] == 1 && playerSpots[4] == 1 && playerSpots[7] == 1) {
     textAlign(CENTER);
     textSize(60);
-    fill(0,128,0);
+    fill(0, 128, 0);
     text("Player wins in " + playCount + " turns", width/2, height/2);
     gameOver = true;
     won = true;
@@ -1547,7 +1549,7 @@ void colWin() {
   } else if (playerSpots[2] == 1 && playerSpots[5] == 1 && playerSpots[8] == 1) {
     textAlign(CENTER);
     textSize(60);
-    fill(0,128,0);
+    fill(0, 128, 0);
     text("Player wins in " + playCount + " turns", width/2, height/2);
     gameOver = true;
     won = true;
@@ -1555,7 +1557,7 @@ void colWin() {
   } else if (botSpots[0] == 1 && botSpots[3] == 1 && botSpots[6] == 1) {
     textAlign(CENTER);
     textSize(60);
-    fill(178,34,34);
+    fill(178, 34, 34);
     text("Bot wins in " + playCount + " turns", width/2, height/2);   
     gameOver = true;
     won = true;
@@ -1563,7 +1565,7 @@ void colWin() {
   } else if (botSpots[1] == 1 && botSpots[4] == 1 && botSpots[7] == 1) {
     textAlign(CENTER);
     textSize(60);
-    fill(178,34,34);
+    fill(178, 34, 34);
     text("Bot wins in " + playCount + " turns", width/2, height/2);  
     gameOver = true;
     won = true;
@@ -1571,7 +1573,7 @@ void colWin() {
   } else if (botSpots[2] == 1 && botSpots[5] == 1 && botSpots[8] == 1) {
     textAlign(CENTER);
     textSize(60);
-    fill(178,34,34);
+    fill(178, 34, 34);
     text("Bot wins in " + playCount + " turns", width/2, height/2);
     gameOver = true;
     won = true;
@@ -1586,7 +1588,7 @@ void diagWin() {
   if (playerSpots[0] == 1 && playerSpots[4] == 1 && playerSpots[8] == 1) {
     textAlign(CENTER);
     textSize(60);
-    fill(0,128,0);
+    fill(0, 128, 0);
     text("Player wins in " + playCount + " turns", width/2, height/2);
     gameOver = true;
     won = true;
@@ -1594,7 +1596,7 @@ void diagWin() {
   } else if (playerSpots[2] == 1 && playerSpots[4] == 1 && playerSpots[6] == 1) {
     textAlign(CENTER);
     textSize(60);
-    fill(0,128,0);
+    fill(0, 128, 0);
     text("Player wins in " + playCount + " turns", width/2, height/2);
     gameOver = true;
     won = true;
@@ -1602,7 +1604,7 @@ void diagWin() {
   } else if (botSpots[0] == 1 && botSpots[4] == 1 && botSpots[8] == 1) {
     textAlign(CENTER);
     textSize(60);
-    fill(178,34,34);
+    fill(178, 34, 34);
     text("Bot wins in " + playCount + " turns", width/2, height/2); 
     gameOver = true;
     won = true;
@@ -1610,7 +1612,7 @@ void diagWin() {
   } else if (botSpots[2] == 1 && botSpots[4] == 1 && botSpots[6] == 1) {
     textAlign(CENTER);
     textSize(60);
-    fill(178,34,34);
+    fill(178, 34, 34);
     text("Bot wins in " + playCount + " turns", width/2, height/2); 
     gameOver = true;
     won = true;
