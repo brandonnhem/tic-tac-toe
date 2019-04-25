@@ -20,6 +20,7 @@ Once open, begin the game by clicking on any spot in the 9 x 9 grid. When you ar
 <details>
   <summary>Example Photos:</summary>
     <p>
+
 Figure 1 - Win State 
 
 ![Screenshot](https://imgur.com/w8ndOeD.png)
