@@ -26,6 +26,7 @@ boolean playerIsX = false; // tell the player what they are before the game star
 boolean botToWin = false; // determines if the bot is about to win in the next move
 boolean userToWin = false; // determines if the user is about to win in the next move
 boolean botMsg = false; // flag to ensure the bot's snarky message is only called once
+boolean userMenu = false; // flag to determine if the game's menu is open or not
 
 void setup () {
   /**
@@ -58,6 +59,7 @@ void draw () {
    **/
   background(255, 255, 255);
   //Create a grid pattern on the screen with vertical and horizontal lines
+  stroke(0);
   for (int i = 0; i < width; i++) {
     line (i*bs, 0, i*bs, height);
   }
@@ -78,9 +80,33 @@ void draw () {
     if (!playerIsX) {
       text("You play as O", (width/2), (height/2) + 50);
     }
+    text("Click to continue", (width/2), (height/2) + 100);
+    text("Press DOWN arrow\nto open menu", w/2, h*2.5);
+    text("Press UP arrow\nto close menu", w*2.5, h*2.5);
   }
   printPlayer(); // constantly prints out where the player's symbols are
   printBot();    // constantly prints out where the bot's symbols are
+  if (keyPressed && keyCode == DOWN) {
+    userMenu = true;
+  }
+  if (userMenu) {
+    fill(0);
+    rect(0.0, 800.0, width, height / 4);
+    fill(255);
+    stroke(255);
+    line (300, 800, 300, 900);
+    line (600, 800, 600, 900);
+    textSize(30);
+    text("Reset Score", w/2, h*2.85);
+    text("Quit Game", w*2.5, h*2.85);
+    fill(0, 128, 0);
+    text("Player Score: " + playerScore, w*1.5, h*2.8);
+    fill(178, 34, 34);
+    text("Bot Score: " + botScore, w*1.5, h*2.9);
+    if(keyPressed && keyCode == UP) {
+      userMenu = false;
+    }
+  }
   //Checks for win scenarios each iteration
   rowWin();
   colWin();
