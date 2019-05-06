@@ -1,4 +1,4 @@
-import java.util.Random; // Used to have the bot pick a spot and who goes first //<>// //<>// //<>// //<>// //<>// //<>//
+import java.util.Random; // Used to have the bot pick a spot and who goes first //<>// //<>// //<>// //<>// //<>// //<>// //<>//
 
 PImage imgx, imgo; // used to import images into the game
 
@@ -13,6 +13,7 @@ int[][] grid = new int [numRows][numCols];
 int[] gridSpots = new int [9];  // all possible spots on the grid
 int[] playerSpots = new int [9];  // spots that the user has taken
 int[] botSpots = new int [9];   // spots that the bot has taken
+String [] cheekyRemarks = {"You Are Not Very Good", "Two Thumbs Down", "Are You Even Trying?", "How Embarassing", "You're Bad", ":("}; // What the bot says when you lose to it
 boolean gameOver = false;
 boolean won = false;
 int playerScore = 0; // score of the player
@@ -22,8 +23,9 @@ boolean playerWon = false;
 boolean botWon = false;
 boolean alreadyCalled = false; // used in draw(), ensures the updateScore() method is only called once
 boolean playerIsX = false; // tell the player what they are before the game starts, false is default indicating O, true is X
-boolean botToWin = false;
-boolean userToWin = false;
+boolean botToWin = false; // determines if the bot is about to win in the next move
+boolean userToWin = false; // determines if the user is about to win in the next move
+boolean botMsg = false; // flag to ensure the bot's snarky message is only called once
 
 void setup () {
   /**
@@ -92,13 +94,20 @@ void draw () {
     }
     if (botWon) {
       fill(178, 34, 34);
+      if (!botMsg) { // this makes sure that the message does not constantly change back and forth
+        Random rand = new Random();
+        choice = rand.nextInt(cheekyRemarks.length); 
+        botMsg = true;
+      }
+      textAlign(CENTER);
+      text(cheekyRemarks[choice], width/2, height/2 - 50);
     }
     if (playerWon) {
       fill(0, 128, 0);
     }
-    textSize(30);
+    textSize(40);
     textAlign(CENTER);
-    text("Press space bar to restart.", (width/2)+30, (height/2)+30);
+    text("Press space bar to restart.", (width/2), (height/2)+50);
     if (keyPressed && key == ' ') {  // this is the restart logic, it resets everything
       playCount = 0;        //number of user turns
       grid = new int [numRows][numCols];
@@ -113,6 +122,7 @@ void draw () {
       alreadyCalled = false;
       botToWin = false;
       userToWin = false;
+      botMsg = false;
       Random rand = new Random();
       choice = rand.nextInt(2);
       if (choice == 1) {
@@ -1558,7 +1568,7 @@ void colWin() {
     textAlign(CENTER);
     textSize(60);
     fill(178, 34, 34);
-    text("Bot wins in " + playCount + " turns", width/2, height/2);   
+    text("Bot wins in " + playCount + " turns", width/2, height/2);
     gameOver = true;
     won = true;
     botWon = true;
@@ -1566,7 +1576,7 @@ void colWin() {
     textAlign(CENTER);
     textSize(60);
     fill(178, 34, 34);
-    text("Bot wins in " + playCount + " turns", width/2, height/2);  
+    text("Bot wins in " + playCount + " turns", width/2, height/2); 
     gameOver = true;
     won = true;
     botWon = true;
@@ -1605,7 +1615,7 @@ void diagWin() {
     textAlign(CENTER);
     textSize(60);
     fill(178, 34, 34);
-    text("Bot wins in " + playCount + " turns", width/2, height/2); 
+    text("Bot wins in " + playCount + " turns", width/2, height/2);
     gameOver = true;
     won = true;
     botWon = true;
