@@ -27,6 +27,9 @@ boolean botToWin = false; // determines if the bot is about to win in the next m
 boolean userToWin = false; // determines if the user is about to win in the next move
 boolean botMsg = false; // flag to ensure the bot's snarky message is only called once
 boolean paused = false; // if the game is paused or not
+boolean botFirst = false; // determines if the bot should go first or not
+boolean playerTurn = false; // if it is the player's turn to go
+boolean botTurn = false; // if it is the bot's turn
 
 void setup () {
   /**
@@ -43,10 +46,12 @@ void setup () {
     imgx = loadImage("x.png"); // loads the image for x 
     imgo = loadImage("o.png"); // loads the image for o
     playerIsX = true;
+    playerTurn = true;
   } else {
     imgo = loadImage("x.png"); // loads the image for o
     imgx = loadImage("o.png"); // loads the image for x
     playerIsX = false;
+    botTurn = true;
   }
   smooth(); // smooths out the lines
 }
@@ -65,24 +70,45 @@ void draw () {
   for (int i = 0; i < height; i++) {
     line (0, i * bs, width, i * bs);
   }
+  printPlayer(); // constantly prints out where the player's symbols are
+  printBot();    // constantly prints out where the bot's symbols are
   if (!firstClick) { // displays the score of the player and the bot before the game starts, once the player clicks, the text disappears
     fill(0, 128, 0);
     textSize(30);
     textAlign(CENTER);
-    text("Player Score: " + playerScore, (width/2), (height/2)- 50);
+    text("Player Score: " + playerScore, (width/2), (height/2) - 100);
     fill(178, 34, 34);
-    text("Bot Score: " + botScore, (width/2), (height/2)); 
+    text("Bot Score: " + botScore, (width/2), (height/2) - 50); 
     fill(0);
     if (playerIsX) {
-      text("You play as X", (width/2), (height/2) + 50);
+      text("You play as X", (width/2), (height/2));
     } 
     if (!playerIsX) {
-      text("You play as O", (width/2), (height/2) + 50);
+      text("You play as O", (width/2), (height/2));
     }
-    text("Click to start...", (width/2), (height/2) + 100);
+    text("Click to start...", (width/2), (height/2) + 50);
+    text("Press UP to pause", (width/2), (height/2) + 100);
   }
-  printPlayer(); // constantly prints out where the player's symbols are
-  printBot();    // constantly prints out where the bot's symbols are
+  //println("Gameover: " + gameOver // DEBUG
+  //  + " Turn: " + playCount + " playerTurn: " + playerTurn + " botTurn: " + botTurn);
+  // DEBUG SECTION
+  if (!gameOver && playCount == 8 && playerTurn) {
+    println("You've reached 8 turns, no game over, it's the player's turn");
+    println("Grid: ");
+    for (int i = 0; i <= gridSpots.length - 1; i++) {
+      print("[" + i + "] = " + gridSpots[i]); 
+    }
+    println("Player: " + playerSpots);
+    for (int i = 0; i <= playerSpots.length - 1; i++) {
+      print("[" + i + "] = " + playerSpots[i]); 
+    }
+    println("Bots: " + botSpots);
+    for (int i = 0; i <= playerSpots.length - 1; i++) {
+      print("[" + i + "] = " + playerSpots[i]); 
+    }
+    noLoop();
+  }
+  if (botTurn && !gameOver) bot(); // determines if the bot's turn or not
   //Checks for win scenarios each iteration
   rowWin();
   colWin();
@@ -125,20 +151,22 @@ void draw () {
       botToWin = false;
       userToWin = false;
       botMsg = false;
+      playerTurn = false;
+      botTurn = false;
       Random rand = new Random();
       choice = rand.nextInt(2);
       if (choice == 1) {
         imgx = loadImage("x.png");
         imgo = loadImage("o.png");
         playerIsX = true;
+        playerTurn = true;
       } else {
         imgo = loadImage("x.png");
         imgx = loadImage("o.png");
         playerIsX = false;
+        botTurn = true;
       }
     }
-  } else if (playCount % 2 == 1) {
-    bot();
   }
   if (!gameOver) {
     takenSpot();
@@ -158,7 +186,7 @@ void keyPressed() {
   }
   if (keyPressed && keyCode == DOWN) {
     paused = false;
-    loop(); // starts draw() back up again after being not called 
+    loop(); // starts draw() back up again after being not called
   }
 }
 
@@ -190,84 +218,103 @@ void mouseClicked() {
    This monitors where the player has clicked, when the user clicks in a valid spot, it updates the array
    that stores the player's taken spots. Also then increases the play count.
    **/
-  if (!paused) {
-    if (!gameOver) {
-      firstClick = true;
-      if (mouseX < w && mouseY < h) { 
-        //println("user pressed at " + mouseX + ", " + mouseY);
-        if (gridSpots[0] != 1) {
-          gridSpots[0] = 1;
-          playerSpots[0] = 1;
-          playCount++;
-        }
-      } else if (mouseX <= 2*w && mouseX >= w && mouseY <= h) {
-        //println("user pressed at " + mouseX + ", " + mouseY);   
-        if (gridSpots[1] != 1) {
-          gridSpots[1] = 1;
-          playerSpots[1] = 1;
-          playCount++;
-        }
-      } else if (mouseX <= 3*w && mouseX >= 2*w && mouseY <= h) {
-        //println("user pressed at " + mouseX + ", " + mouseY);   
-        if (gridSpots[2] != 1) {
-          gridSpots[2] = 1;
-          playerSpots[2] = 1;
-          playCount++;
-        }
-      } else if (mouseX <= w && mouseY >= h && mouseY <= 2*h) {
-        //println("user pressed at " + mouseX + ", " + mouseY);   
-        if (gridSpots[3] != 1) {
-          gridSpots[3] = 1;
-          playerSpots[3] = 1;
-          playCount++;
-        }
-      } else if (mouseX >= w && mouseX <= 2*w && mouseY >= h && mouseY <= 2*h) {
-        //println("user pressed at " + mouseX + ", " + mouseY);   
-        if (gridSpots[4] != 1) {
-          gridSpots[4] = 1;
-          playerSpots[4] = 1;
-          playCount++;
-        }
-      } else if (mouseX >= 2*w && mouseX <= 3*w && mouseY >= h && mouseY <= 2*h) {
-        //println("user pressed at " + mouseX + ", " + mouseY);   
-        if (gridSpots[5] != 1) {
-          gridSpots[5] = 1;
-          playerSpots[5] = 1;
-          playCount++;
-        }
-      } else if (mouseX <= w && mouseY >= 2*h && mouseY <= 3*h) {
-        //println("user pressed at " + mouseX + ", " + mouseY);   
-        if (gridSpots[6] != 1) {
-          gridSpots[6] = 1;
-          playerSpots[6] = 1;
-          playCount++;
-        }
-      } else if (mouseX >= w && mouseX <= 2*w && mouseY >= 2*h && mouseY <= 3*h) {
-        //println("user pressed at " + mouseX + ", " + mouseY);   
-        if (gridSpots[7] != 1) {
-          gridSpots[7] = 1;
-          playerSpots[7] = 1;
-          playCount++;
-        }
-      } else if (mouseX >= 2*w && mouseX <= 3*w && mouseY >= 2*h && mouseY <= 3*h) {
-        //println("user pressed at " + mouseX + ", " + mouseY);   
-        if (gridSpots[8] != 1) {
-          gridSpots[8] = 1;
-          playerSpots[8] = 1;
-          playCount++;
-        }
+  if (!gameOver && !playerTurn && botTurn) { // used to set firstClick to true if the bot goes first
+    firstClick = true;
+  }
+  if (!paused && !gameOver && playerTurn && !botTurn) { // DEBUG merged the if conditions
+    firstClick = true;
+    if (mouseX < w && mouseY < h) { 
+      //println("user pressed at " + mouseX + ", " + mouseY);
+      if (gridSpots[0] != 1) {
+        gridSpots[0] = 1;
+        playerSpots[0] = 1;
+        playerTurn = false;
+        botTurn = true;
+        playCount++;
+      }
+    } else if (mouseX <= 2*w && mouseX >= w && mouseY <= h) {
+      //println("user pressed at " + mouseX + ", " + mouseY);   
+      if (gridSpots[1] != 1) {
+        gridSpots[1] = 1;
+        playerSpots[1] = 1;
+        playerTurn = false;
+        botTurn = true;
+        playCount++;
+      }
+    } else if (mouseX <= 3*w && mouseX >= 2*w && mouseY <= h) {
+      //println("user pressed at " + mouseX + ", " + mouseY);   
+      if (gridSpots[2] != 1) {
+        gridSpots[2] = 1;
+        playerSpots[2] = 1;
+        playerTurn = false;
+        botTurn = true;
+        playCount++;
+      }
+    } else if (mouseX <= w && mouseY >= h && mouseY <= 2*h) {
+      //println("user pressed at " + mouseX + ", " + mouseY);   
+      if (gridSpots[3] != 1) {
+        gridSpots[3] = 1;
+        playerSpots[3] = 1;
+        playerTurn = false;
+        botTurn = true;
+        playCount++;
+      }
+    } else if (mouseX >= w && mouseX <= 2*w && mouseY >= h && mouseY <= 2*h) {
+      //println("user pressed at " + mouseX + ", " + mouseY);   
+      if (gridSpots[4] != 1) {
+        gridSpots[4] = 1;
+        playerSpots[4] = 1;
+        playerTurn = false;
+        botTurn = true;
+        playCount++;
+      }
+    } else if (mouseX >= 2*w && mouseX <= 3*w && mouseY >= h && mouseY <= 2*h) {
+      //println("user pressed at " + mouseX + ", " + mouseY);   
+      if (gridSpots[5] != 1) {
+        gridSpots[5] = 1;
+        playerSpots[5] = 1;
+        playerTurn = false;
+        botTurn = true;
+        playCount++;
+      }
+    } else if (mouseX <= w && mouseY >= 2*h && mouseY <= 3*h) {
+      //println("user pressed at " + mouseX + ", " + mouseY);   
+      if (gridSpots[6] != 1) {
+        gridSpots[6] = 1;
+        playerSpots[6] = 1;
+        playerTurn = false;
+        botTurn = true;
+        playCount++;
+      }
+    } else if (mouseX >= w && mouseX <= 2*w && mouseY >= 2*h && mouseY <= 3*h) {
+      //println("user pressed at " + mouseX + ", " + mouseY);   
+      if (gridSpots[7] != 1) {
+        gridSpots[7] = 1;
+        playerSpots[7] = 1;
+        playerTurn = false;
+        botTurn = true;
+        playCount++;
+      }
+    } else if (mouseX >= 2*w && mouseX <= 3*w && mouseY >= 2*h && mouseY <= 3*h) {
+      //println("user pressed at " + mouseX + ", " + mouseY);   
+      if (gridSpots[8] != 1) {
+        gridSpots[8] = 1;
+        playerSpots[8] = 1;
+        playerTurn = false;
+        botTurn = true;
+        playCount++;
       }
     }
-    if (paused) {
-      if (mouseX <= 600 && mouseY >= h*2 && mouseY <= h*3) {
-        println("I reset");
-        playerScore = 0;
-        botScore = 0;
-      }
-      if (mouseX >= 600 && mouseY >= h*2 && mouseY <= h*3) {
-        println("I QUIT");
-      }
-    }
+    //if (paused) {
+    //  if (mouseX <= 600 && mouseY >= h*2 && mouseY <= h*3) {
+    //    println("I reset");
+    //    playerScore = 0;
+    //    botScore = 0;
+    //  }
+    //  if (mouseX >= 600 && mouseY >= h*2 && mouseY <= h*3) {
+    //    println("I QUIT");
+    //  }
+    //}
     userToWin = false;
     botToWin = false;
   }
@@ -1432,58 +1479,94 @@ void bot() {
   if (((botSpots[1] == 1 && botSpots[2] == 1)||(botSpots[3] == 1 && botSpots[6] == 1)||(botSpots[4] == 1 && botSpots[8] == 1)) && gridSpots[0] != 1) { //Top Left Corner
     gridSpots[0] = 1;
     botSpots[0] = 1;
+    playerTurn = true;
+    botTurn = false;
   } else if (((botSpots[0] == 1 && botSpots[2] == 1)||(botSpots[4] == 1 && botSpots[7] == 1)) && gridSpots[1] != 1) { //Top Middle
     gridSpots[1] = 1;
     botSpots[1] = 1;
+    playerTurn = true;
+    botTurn = false;
   } else if (((botSpots[0] == 1 && botSpots[1] == 1)||(botSpots[6] == 1 && botSpots[4] == 1)||(botSpots[5] == 1 && botSpots[8] == 1)) && gridSpots[2] != 1) { //Tope Right Corner
     gridSpots[2] = 1;
     botSpots[2] = 1;
+    playerTurn = true;
+    botTurn = false;
   } else if (((botSpots[0] == 1 && botSpots[6] == 1)||(botSpots[4] == 1 && botSpots[5] == 1)) && botSpots[3] != 1 && gridSpots[3] != 1) { //Middle Left
     gridSpots[3] = 1;
     botSpots[3] = 1;
+    playerTurn = true;
+    botTurn = false;
   } else if (((botSpots[0] == 1 && botSpots[8] == 1)||(botSpots[2] == 1 && botSpots[6] == 1)||(botSpots[3] == 1 && botSpots[5] == 1)||(botSpots[1] == 1 && botSpots[7] == 1)) && gridSpots[4] != 1) { //Middle Middle
     gridSpots[4] = 1;
     botSpots[4] = 1;
+    playerTurn = true;
+    botTurn = false;
   } else if (((botSpots[3] == 1 && botSpots[4] == 1)||(botSpots[2] == 1 && botSpots[8] == 1)) && gridSpots[5] != 1) { //Middle Right
     gridSpots[5] = 1;
     botSpots[5] = 1;
+    playerTurn = true;
+    botTurn = false;
   } else if (((botSpots[0] == 1 && botSpots[3] == 1)||(botSpots[2] == 1 && botSpots[4] == 1)||(botSpots[7] == 1 && botSpots[8] == 1)) && gridSpots[6] != 1) { //Bottom Left
     gridSpots[6] = 1;
     botSpots[6] = 1;
+    playerTurn = true;
+    botTurn = false;
   } else if (((botSpots[1] == 1 && botSpots[4] == 1)||(botSpots[6] == 1 && botSpots[8] == 1)) && gridSpots[7] != 1) { //Bottom Middle
     gridSpots[7] = 1;
     botSpots[7] = 1;
+    playerTurn = true;
+    botTurn = false;
   } else if (((botSpots[2] == 1 && botSpots[5] == 1)||(botSpots[0] == 1 && botSpots[4] == 1)||(botSpots[6] == 1 && botSpots[7] == 1)) && gridSpots[8] != 1) { //Bottom Right
     gridSpots[8] = 1;
     botSpots[8] = 1;
+    playerTurn = true;
+    botTurn = false;
   } else {
     if (((playerSpots[1] == 1 && playerSpots[2] == 1)||(playerSpots[3] == 1 && playerSpots[6] == 1)||(playerSpots[4] == 1 && playerSpots[8] == 1)) && gridSpots[0] != 1) { //Top Left Corner
       gridSpots[0] = 1;
       botSpots[0] = 1;
+      playerTurn = true;
+      botTurn = false;
     } else if (((playerSpots[0] == 1 && playerSpots[2] == 1)||(playerSpots[4] == 1 && playerSpots[7] == 1)) && gridSpots[1] != 1) { //Top Middle
       gridSpots[1] = 1;
       botSpots[1] = 1;
+      playerTurn = true;
+      botTurn = false;
     } else if (((playerSpots[0] == 1 && playerSpots[1] == 1)||(playerSpots[6] == 1 && playerSpots[4] == 1)||(playerSpots[5] == 1 && playerSpots[8] == 1)) && gridSpots[2] != 1) { //Tope Right Corner
       gridSpots[2] = 1;
       botSpots[2] = 1;
+      playerTurn = true;
+      botTurn = false;
     } else if (((playerSpots[0] == 1 && playerSpots[6] == 1)||(playerSpots[4] == 1 && playerSpots[5] == 1)) && gridSpots[3] != 1) { //Middle Left
       gridSpots[3] = 1;
       botSpots[3] = 1;
+      playerTurn = true;
+      botTurn = false;
     } else if (((playerSpots[0] == 1 && playerSpots[8] == 1)||(playerSpots[2] == 1 && playerSpots[6] == 1)||(playerSpots[3] == 1 && playerSpots[5] == 1)||(playerSpots[1] == 1 && playerSpots[7] == 1)) && gridSpots[4] != 1) { //Middle Middle
       gridSpots[4] = 1;
       botSpots[4] = 1;
+      playerTurn = true;
+      botTurn = false;
     } else if (((playerSpots[3] == 1 && playerSpots[4] == 1)||(playerSpots[2] == 1 && playerSpots[8] == 1)) && gridSpots[5] != 1) { //Middle Right
       gridSpots[5] = 1;
       botSpots[5] = 1;
+      playerTurn = true;
+      botTurn = false;
     } else if (((playerSpots[0] == 1 && playerSpots[3] == 1)||(playerSpots[2] == 1 && playerSpots[4] == 1)||(playerSpots[7] == 1 && playerSpots[8] == 1)) && gridSpots[6] != 1) { //Bottom Left
       gridSpots[6] = 1;
       botSpots[6] = 1;
+      playerTurn = true;
+      botTurn = false;
     } else if (((playerSpots[1] == 1 && playerSpots[4] == 1)||(playerSpots[6] == 1 && playerSpots[8] == 1)) && gridSpots[7] != 1) { //Bottom Middle
       gridSpots[7] = 1;
       botSpots[7] = 1;
+      playerTurn = true;
+      botTurn = false;
     } else if (((playerSpots[2] == 1 && playerSpots[5] == 1)||(playerSpots[0] == 1 && playerSpots[4] == 1)||(playerSpots[6] == 1 && playerSpots[7] == 1)) && gridSpots[8] != 1) { //Bottom Right
       gridSpots[8] = 1;
       botSpots[8] = 1;
+      playerTurn = true;
+      botTurn = false;
     } else {
       if (n == 0) {
         gridSpots[n] = 1;
@@ -1513,8 +1596,13 @@ void bot() {
         gridSpots[n] = 1;
         botSpots[n] = 1;
       }
+      //DEBUG PT 2
+      //playerTurn = true;
+      //botTurn = false;
     }
   }
+  playerTurn = true;
+  botTurn = false;
   playCount++; // increase how many plays have gone by
 }
 
