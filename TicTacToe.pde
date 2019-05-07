@@ -169,6 +169,12 @@ void keyPressed() {
     paused = false;
     loop(); // starts draw() back up again after being not called
   }
+  if (paused && keyPressed && key == 'r') {
+    paused = false;
+    playerScore = 0;
+    botScore = 0;
+    loop();
+  }
 }
 
 void paused() {
@@ -187,6 +193,7 @@ void paused() {
   fill(178, 34, 34);
   text("Bot Score: " + botScore, (w*1.5), (h/2) + 50);
   fill(0);
+  text("Press R to reset score", (w*1.5), (h/2) + 125);
   // keeping these commented in case we want to do reset score, honestly can't figure it out
   //text("Reset Score", w - 100, h*2.5);
   //text("Quit Game", w + 400, h*2.5);
