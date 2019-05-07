@@ -1,4 +1,4 @@
-import java.util.Random; // Used to have the bot pick a spot and who goes first //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+import java.util.Random; // Used to have the bot pick a spot and who goes first //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
 
 PImage imgx, imgo; // used to import images into the game
 
@@ -13,7 +13,7 @@ int[][] grid = new int [numRows][numCols];
 int[] gridSpots = new int [9];  // all possible spots on the grid
 int[] playerSpots = new int [9];  // spots that the user has taken
 int[] botSpots = new int [9];   // spots that the bot has taken
-String [] cheekyRemarks = {"You Are Not Very Good", "Two Thumbs Down", "Are You Even Trying?", "How Embarassing", "You're Bad", ":("}; // What the bot says when you lose to it
+String [] cheekyRemarks = {"You Are Not Very Good", "Two Thumbs Down", "Are You Even Trying?", "How Embarassing", "You're Bad", "Pathetic"}; // What the bot says when you lose to it
 boolean gameOver = false;
 boolean won = false;
 int playerScore = 0; // score of the player
@@ -26,7 +26,7 @@ boolean playerIsX = false; // tell the player what they are before the game star
 boolean botToWin = false; // determines if the bot is about to win in the next move
 boolean userToWin = false; // determines if the user is about to win in the next move
 boolean botMsg = false; // flag to ensure the bot's snarky message is only called once
-boolean userMenu = false; // flag to determine if the game's menu is open or not
+boolean paused = false; // if the game is paused or not
 
 void setup () {
   /**
@@ -59,7 +59,6 @@ void draw () {
    **/
   background(255, 255, 255);
   //Create a grid pattern on the screen with vertical and horizontal lines
-  stroke(0);
   for (int i = 0; i < width; i++) {
     line (i*bs, 0, i*bs, height);
   }
@@ -80,33 +79,10 @@ void draw () {
     if (!playerIsX) {
       text("You play as O", (width/2), (height/2) + 50);
     }
-    text("Click to continue", (width/2), (height/2) + 100);
-    text("Press DOWN arrow\nto open menu", w/2, h*2.5);
-    text("Press UP arrow\nto close menu", w*2.5, h*2.5);
+    text("Click to start...", (width/2), (height/2) + 100);
   }
   printPlayer(); // constantly prints out where the player's symbols are
   printBot();    // constantly prints out where the bot's symbols are
-  if (keyPressed && keyCode == DOWN) {
-    userMenu = true;
-  }
-  if (userMenu) {
-    fill(0);
-    rect(0.0, 800.0, width, height / 4);
-    fill(255);
-    stroke(255);
-    line (300, 800, 300, 900);
-    line (600, 800, 600, 900);
-    textSize(30);
-    text("Reset Score", w/2, h*2.85);
-    text("Quit Game", w*2.5, h*2.85);
-    fill(0, 128, 0);
-    text("Player Score: " + playerScore, w*1.5, h*2.8);
-    fill(178, 34, 34);
-    text("Bot Score: " + botScore, w*1.5, h*2.9);
-    if(keyPressed && keyCode == UP) {
-      userMenu = false;
-    }
-  }
   //Checks for win scenarios each iteration
   rowWin();
   colWin();
@@ -173,75 +149,123 @@ void draw () {
   }
 }
 
+void keyPressed() {
+  /**
+   Detects for UP or DOWN arrow keys
+   **/
+  if (keyPressed && keyCode == UP) {
+    paused();
+  }
+  if (keyPressed && keyCode == DOWN) {
+    paused = false;
+    loop(); // starts draw() back up again after being not called 
+  }
+}
+
+void paused() {
+  /**
+   If the UP arrow key is pressed, the game will enter a paused state. 
+   The only options are to reset the score OR quit the game. 
+   **/
+  paused = true;
+  background(255);
+  fill(255, 3, 3);
+  textSize(60);
+  text("Game paused...", width/2, height/2 - 25);
+  text("Press DOWN to unpause", width/2, height/2 + 50);
+  fill(0, 128, 0);
+  text("Player Score: " + playerScore, (w*1.5), (h/2) - 25);
+  fill(178, 34, 34);
+  text("Bot Score: " + botScore, (w*1.5), (h/2) + 50);
+  fill(0);
+  // keeping these commented in case we want to do reset score, honestly can't figure it out
+  //text("Reset Score", w - 100, h*2.5);
+  //text("Quit Game", w + 400, h*2.5);
+  text("Press ESC to quit", width/2, h*2.5);
+  noLoop(); // this is what keeps the pause game at bay, draw() is not called
+}
+
 void mouseClicked() {
   /**
    This monitors where the player has clicked, when the user clicks in a valid spot, it updates the array
    that stores the player's taken spots. Also then increases the play count.
    **/
-  if (!gameOver) {
-    firstClick = true;
-    if (mouseX < w && mouseY < h) { 
-      //println("user pressed at " + mouseX + ", " + mouseY);
-      if (gridSpots[0] != 1) {
-        gridSpots[0] = 1;
-        playerSpots[0] = 1;
-        playCount++;
+  if (!paused) {
+    if (!gameOver) {
+      firstClick = true;
+      if (mouseX < w && mouseY < h) { 
+        //println("user pressed at " + mouseX + ", " + mouseY);
+        if (gridSpots[0] != 1) {
+          gridSpots[0] = 1;
+          playerSpots[0] = 1;
+          playCount++;
+        }
+      } else if (mouseX <= 2*w && mouseX >= w && mouseY <= h) {
+        //println("user pressed at " + mouseX + ", " + mouseY);   
+        if (gridSpots[1] != 1) {
+          gridSpots[1] = 1;
+          playerSpots[1] = 1;
+          playCount++;
+        }
+      } else if (mouseX <= 3*w && mouseX >= 2*w && mouseY <= h) {
+        //println("user pressed at " + mouseX + ", " + mouseY);   
+        if (gridSpots[2] != 1) {
+          gridSpots[2] = 1;
+          playerSpots[2] = 1;
+          playCount++;
+        }
+      } else if (mouseX <= w && mouseY >= h && mouseY <= 2*h) {
+        //println("user pressed at " + mouseX + ", " + mouseY);   
+        if (gridSpots[3] != 1) {
+          gridSpots[3] = 1;
+          playerSpots[3] = 1;
+          playCount++;
+        }
+      } else if (mouseX >= w && mouseX <= 2*w && mouseY >= h && mouseY <= 2*h) {
+        //println("user pressed at " + mouseX + ", " + mouseY);   
+        if (gridSpots[4] != 1) {
+          gridSpots[4] = 1;
+          playerSpots[4] = 1;
+          playCount++;
+        }
+      } else if (mouseX >= 2*w && mouseX <= 3*w && mouseY >= h && mouseY <= 2*h) {
+        //println("user pressed at " + mouseX + ", " + mouseY);   
+        if (gridSpots[5] != 1) {
+          gridSpots[5] = 1;
+          playerSpots[5] = 1;
+          playCount++;
+        }
+      } else if (mouseX <= w && mouseY >= 2*h && mouseY <= 3*h) {
+        //println("user pressed at " + mouseX + ", " + mouseY);   
+        if (gridSpots[6] != 1) {
+          gridSpots[6] = 1;
+          playerSpots[6] = 1;
+          playCount++;
+        }
+      } else if (mouseX >= w && mouseX <= 2*w && mouseY >= 2*h && mouseY <= 3*h) {
+        //println("user pressed at " + mouseX + ", " + mouseY);   
+        if (gridSpots[7] != 1) {
+          gridSpots[7] = 1;
+          playerSpots[7] = 1;
+          playCount++;
+        }
+      } else if (mouseX >= 2*w && mouseX <= 3*w && mouseY >= 2*h && mouseY <= 3*h) {
+        //println("user pressed at " + mouseX + ", " + mouseY);   
+        if (gridSpots[8] != 1) {
+          gridSpots[8] = 1;
+          playerSpots[8] = 1;
+          playCount++;
+        }
       }
-    } else if (mouseX <= 2*w && mouseX >= w && mouseY <= h) {
-      //println("user pressed at " + mouseX + ", " + mouseY);   
-      if (gridSpots[1] != 1) {
-        gridSpots[1] = 1;
-        playerSpots[1] = 1;
-        playCount++;
+    }
+    if (paused) {
+      if (mouseX <= 600 && mouseY >= h*2 && mouseY <= h*3) {
+        println("I reset");
+        playerScore = 0;
+        botScore = 0;
       }
-    } else if (mouseX <= 3*w && mouseX >= 2*w && mouseY <= h) {
-      //println("user pressed at " + mouseX + ", " + mouseY);   
-      if (gridSpots[2] != 1) {
-        gridSpots[2] = 1;
-        playerSpots[2] = 1;
-        playCount++;
-      }
-    } else if (mouseX <= w && mouseY >= h && mouseY <= 2*h) {
-      //println("user pressed at " + mouseX + ", " + mouseY);   
-      if (gridSpots[3] != 1) {
-        gridSpots[3] = 1;
-        playerSpots[3] = 1;
-        playCount++;
-      }
-    } else if (mouseX >= w && mouseX <= 2*w && mouseY >= h && mouseY <= 2*h) {
-      //println("user pressed at " + mouseX + ", " + mouseY);   
-      if (gridSpots[4] != 1) {
-        gridSpots[4] = 1;
-        playerSpots[4] = 1;
-        playCount++;
-      }
-    } else if (mouseX >= 2*w && mouseX <= 3*w && mouseY >= h && mouseY <= 2*h) {
-      //println("user pressed at " + mouseX + ", " + mouseY);   
-      if (gridSpots[5] != 1) {
-        gridSpots[5] = 1;
-        playerSpots[5] = 1;
-        playCount++;
-      }
-    } else if (mouseX <= w && mouseY >= 2*h && mouseY <= 3*h) {
-      //println("user pressed at " + mouseX + ", " + mouseY);   
-      if (gridSpots[6] != 1) {
-        gridSpots[6] = 1;
-        playerSpots[6] = 1;
-        playCount++;
-      }
-    } else if (mouseX >= w && mouseX <= 2*w && mouseY >= 2*h && mouseY <= 3*h) {
-      //println("user pressed at " + mouseX + ", " + mouseY);   
-      if (gridSpots[7] != 1) {
-        gridSpots[7] = 1;
-        playerSpots[7] = 1;
-        playCount++;
-      }
-    } else if (mouseX >= 2*w && mouseX <= 3*w && mouseY >= 2*h && mouseY <= 3*h) {
-      //println("user pressed at " + mouseX + ", " + mouseY);   
-      if (gridSpots[8] != 1) {
-        gridSpots[8] = 1;
-        playerSpots[8] = 1;
-        playCount++;
+      if (mouseX >= 600 && mouseY >= h*2 && mouseY <= h*3) {
+        println("I QUIT");
       }
     }
     userToWin = false;
