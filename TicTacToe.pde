@@ -1,7 +1,9 @@
-import java.util.Random; // Used to have the bot pick a spot and who goes first //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
-import java.util.Stack;
+import java.util.Random; // Used to have the bot pick a spot and who goes first //<>//
+import java.util.Stack; // used to keep track of the last moves made by the bot and player
+import ddf.minim.*; // used to add sounds to the game
 
 PImage imgx, imgo; // used to import images into the game
+Minim minim; // used to import sounds into the game
 
 int w;              // Width of the grid
 int h;              // Height of the grid
@@ -36,12 +38,16 @@ Stack<Integer> botMoves = new Stack<Integer>();
 boolean ctrlPressed = false;
 boolean zPressed = false;
 
+AudioSample no;
+
 void setup () {
   /**
    This setups the game, specifically the window size, who goes first, and the image that is preloaded for the symbols.
    Alternatively, you can change the symbols if you want if change it in the root folder - just make sure that it's named
    "x.png" or "o.png".
    **/
+  minim = new Minim(this); // used for audio playback
+  no = minim.loadSample("nonono.mp3"); // loads the file for error when pressing ctrl+z
   size (900, 900);            //size will only take literals, not variable
   w = width / 3;
   h = height / 3;
@@ -182,7 +188,7 @@ void keyPressed() {
     botScore = 0;
     loop();
   }
-  if ((keyPressed && key == 26)) {
+  if ((keyPressed && key == 26)) { // combination of CTRL + Z
     ctrlPressed = true;
     zPressed = true;
   }
@@ -190,17 +196,19 @@ void keyPressed() {
 
 void keyReleased() {
   if (ctrlPressed && zPressed) {
-    println("Undoing");
     undoMove();
     ctrlPressed = false;
     zPressed = false;
   }
 }
 void undoMove() {
+  /**
+    Undos the player's last move along with the previous bot's move. 
+    Will not go if the player has no more moves on the board.
+   **/
   if (!gameOver && !playerMoves.empty() && !botMoves.empty()) {
     int playerSpot = playerMoves.peek();
     int botSpot = botMoves.peek();
-    println("Play Spot " + playerSpot + "Bot Spot " + botSpot);
     noLoop();
     gridSpots[playerSpot] = 0;
     playerSpots[playerSpot] = 0;
@@ -211,8 +219,11 @@ void undoMove() {
     botMoves.pop();
     playCount --;
     loop();
-    println("Popped stack");
-    println("Playcount: " + playCount);
+  }
+  else {
+    fill(0);
+    textSize(30);
+    no.trigger();
   }
 }
 
@@ -233,9 +244,6 @@ void paused() {
   text("Bot Score: " + botScore, (w*1.5), (h/2) + 50);
   fill(0);
   text("Press R to reset score", (w*1.5), (h/2) + 125);
-  // keeping these commented in case we want to do reset score, honestly can't figure it out
-  //text("Reset Score", w - 100, h*2.5);
-  //text("Quit Game", w + 400, h*2.5);
   text("Press ESC to quit", width/2, h*2.5);
   noLoop(); // this is what keeps the pause game at bay, draw() is not called
 }
