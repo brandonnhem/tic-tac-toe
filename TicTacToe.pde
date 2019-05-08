@@ -1,4 +1,5 @@
-import java.util.Random; // Used to have the bot pick a spot and who goes first //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+import java.util.Random; // Used to have the bot pick a spot and who goes first //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+import java.util.Stack;
 
 PImage imgx, imgo; // used to import images into the game
 
@@ -12,7 +13,7 @@ int numRows = 3;
 int[][] grid = new int [numRows][numCols];
 int[] gridSpots = new int [9];  // all possible spots on the grid
 int[] playerSpots = new int [9];  // spots that the user has taken
-int[] botSpots = new int [9];   // spots that the bot has taken //<>//
+int[] botSpots = new int [9];   // spots that the bot has taken
 String [] cheekyRemarks = {"You Are Not Very Good", "Two Thumbs Down", "Are You Even Trying?", "How Embarassing", "You're Bad", "Pathetic"}; // What the bot says when you lose to it
 boolean gameOver = false;
 boolean won = false;
@@ -30,6 +31,10 @@ boolean paused = false; // if the game is paused or not
 boolean botFirst = false; // determines if the bot should go first or not
 boolean playerTurn = false; // if it is the player's turn to go
 boolean botTurn = false; // if it is the bot's turn
+Stack<Integer> playerMoves = new Stack<Integer>();
+Stack<Integer> botMoves = new Stack<Integer>();
+boolean ctrlPressed = false;
+boolean zPressed = false;
 
 void setup () {
   /**
@@ -134,6 +139,8 @@ void draw () {
       botMsg = false;
       playerTurn = false;
       botTurn = false;
+      playerMoves.clear();
+      botMoves.clear();
       Random rand = new Random();
       choice = rand.nextInt(2);
       if (choice == 1) {
@@ -169,11 +176,43 @@ void keyPressed() {
     paused = false;
     loop(); // starts draw() back up again after being not called
   }
-  if (paused && keyPressed && key == 'r') {
+  if (paused && keyPressed && key == 'r') { // resets the score for the game
     paused = false;
     playerScore = 0;
     botScore = 0;
     loop();
+  }
+  if ((keyPressed && key == 26)) {
+    ctrlPressed = true;
+    zPressed = true;
+  }
+}
+
+void keyReleased() {
+  if (ctrlPressed && zPressed) {
+    println("Undoing");
+    undoMove();
+    ctrlPressed = false;
+    zPressed = false;
+  }
+}
+void undoMove() {
+  if (!gameOver && !playerMoves.empty() && !botMoves.empty()) {
+    int playerSpot = playerMoves.peek();
+    int botSpot = botMoves.peek();
+    println("Play Spot " + playerSpot + "Bot Spot " + botSpot);
+    noLoop();
+    gridSpots[playerSpot] = 0;
+    playerSpots[playerSpot] = 0;
+    playCount --;
+    gridSpots[botSpot] = 0;
+    botSpots[botSpot] = 0;
+    playerMoves.pop();
+    botMoves.pop();
+    playCount --;
+    loop();
+    println("Popped stack");
+    println("Playcount: " + playCount);
   }
 }
 
@@ -218,6 +257,7 @@ void mouseClicked() {
         playerSpots[0] = 1;
         playerTurn = false;
         botTurn = true;
+        playerMoves.push(0);
         playCount++;
       }
     } else if (mouseX <= 2*w && mouseX >= w && mouseY <= h) {
@@ -227,6 +267,7 @@ void mouseClicked() {
         playerSpots[1] = 1;
         playerTurn = false;
         botTurn = true;
+        playerMoves.push(1);
         playCount++;
       }
     } else if (mouseX <= 3*w && mouseX >= 2*w && mouseY <= h) {
@@ -236,6 +277,7 @@ void mouseClicked() {
         playerSpots[2] = 1;
         playerTurn = false;
         botTurn = true;
+        playerMoves.push(2);
         playCount++;
       }
     } else if (mouseX <= w && mouseY >= h && mouseY <= 2*h) {
@@ -245,6 +287,7 @@ void mouseClicked() {
         playerSpots[3] = 1;
         playerTurn = false;
         botTurn = true;
+        playerMoves.push(3);
         playCount++;
       }
     } else if (mouseX >= w && mouseX <= 2*w && mouseY >= h && mouseY <= 2*h) {
@@ -254,6 +297,7 @@ void mouseClicked() {
         playerSpots[4] = 1;
         playerTurn = false;
         botTurn = true;
+        playerMoves.push(4);
         playCount++;
       }
     } else if (mouseX >= 2*w && mouseX <= 3*w && mouseY >= h && mouseY <= 2*h) {
@@ -263,6 +307,7 @@ void mouseClicked() {
         playerSpots[5] = 1;
         playerTurn = false;
         botTurn = true;
+        playerMoves.push(5);
         playCount++;
       }
     } else if (mouseX <= w && mouseY >= 2*h && mouseY <= 3*h) {
@@ -272,6 +317,7 @@ void mouseClicked() {
         playerSpots[6] = 1;
         playerTurn = false;
         botTurn = true;
+        playerMoves.push(6);
         playCount++;
       }
     } else if (mouseX >= w && mouseX <= 2*w && mouseY >= 2*h && mouseY <= 3*h) {
@@ -281,6 +327,7 @@ void mouseClicked() {
         playerSpots[7] = 1;
         playerTurn = false;
         botTurn = true;
+        playerMoves.push(7);
         playCount++;
       }
     } else if (mouseX >= 2*w && mouseX <= 3*w && mouseY >= 2*h && mouseY <= 3*h) {
@@ -290,6 +337,7 @@ void mouseClicked() {
         playerSpots[8] = 1;
         playerTurn = false;
         botTurn = true;
+        playerMoves.push(8);
         playCount++;
       }
     }
@@ -1459,120 +1507,147 @@ void bot() {
     botSpots[0] = 1;
     playerTurn = true;
     botTurn = false;
+    botMoves.push(0);
   } else if (((botSpots[0] == 1 && botSpots[2] == 1)||(botSpots[4] == 1 && botSpots[7] == 1)) && gridSpots[1] != 1) { //Top Middle
     gridSpots[1] = 1;
     botSpots[1] = 1;
     playerTurn = true;
     botTurn = false;
+    botMoves.push(1);
   } else if (((botSpots[0] == 1 && botSpots[1] == 1)||(botSpots[6] == 1 && botSpots[4] == 1)||(botSpots[5] == 1 && botSpots[8] == 1)) && gridSpots[2] != 1) { //Tope Right Corner
     gridSpots[2] = 1;
     botSpots[2] = 1;
     playerTurn = true;
     botTurn = false;
+    botMoves.push(2);
   } else if (((botSpots[0] == 1 && botSpots[6] == 1)||(botSpots[4] == 1 && botSpots[5] == 1)) && botSpots[3] != 1 && gridSpots[3] != 1) { //Middle Left
     gridSpots[3] = 1;
     botSpots[3] = 1;
     playerTurn = true;
     botTurn = false;
+    botMoves.push(3);
   } else if (((botSpots[0] == 1 && botSpots[8] == 1)||(botSpots[2] == 1 && botSpots[6] == 1)||(botSpots[3] == 1 && botSpots[5] == 1)||(botSpots[1] == 1 && botSpots[7] == 1)) && gridSpots[4] != 1) { //Middle Middle
     gridSpots[4] = 1;
     botSpots[4] = 1;
     playerTurn = true;
     botTurn = false;
+    botMoves.push(4);
   } else if (((botSpots[3] == 1 && botSpots[4] == 1)||(botSpots[2] == 1 && botSpots[8] == 1)) && gridSpots[5] != 1) { //Middle Right
     gridSpots[5] = 1;
     botSpots[5] = 1;
     playerTurn = true;
     botTurn = false;
+    botMoves.push(5);
   } else if (((botSpots[0] == 1 && botSpots[3] == 1)||(botSpots[2] == 1 && botSpots[4] == 1)||(botSpots[7] == 1 && botSpots[8] == 1)) && gridSpots[6] != 1) { //Bottom Left
     gridSpots[6] = 1;
     botSpots[6] = 1;
     playerTurn = true;
     botTurn = false;
+    botMoves.push(6);
   } else if (((botSpots[1] == 1 && botSpots[4] == 1)||(botSpots[6] == 1 && botSpots[8] == 1)) && gridSpots[7] != 1) { //Bottom Middle
     gridSpots[7] = 1;
     botSpots[7] = 1;
     playerTurn = true;
     botTurn = false;
+    botMoves.push(7);
   } else if (((botSpots[2] == 1 && botSpots[5] == 1)||(botSpots[0] == 1 && botSpots[4] == 1)||(botSpots[6] == 1 && botSpots[7] == 1)) && gridSpots[8] != 1) { //Bottom Right
     gridSpots[8] = 1;
     botSpots[8] = 1;
     playerTurn = true;
     botTurn = false;
+    botMoves.push(8);
   } else {
     if (((playerSpots[1] == 1 && playerSpots[2] == 1)||(playerSpots[3] == 1 && playerSpots[6] == 1)||(playerSpots[4] == 1 && playerSpots[8] == 1)) && gridSpots[0] != 1) { //Top Left Corner
       gridSpots[0] = 1;
       botSpots[0] = 1;
       playerTurn = true;
       botTurn = false;
+      botMoves.push(0);
     } else if (((playerSpots[0] == 1 && playerSpots[2] == 1)||(playerSpots[4] == 1 && playerSpots[7] == 1)) && gridSpots[1] != 1) { //Top Middle
       gridSpots[1] = 1;
       botSpots[1] = 1;
       playerTurn = true;
       botTurn = false;
+      botMoves.push(1);
     } else if (((playerSpots[0] == 1 && playerSpots[1] == 1)||(playerSpots[6] == 1 && playerSpots[4] == 1)||(playerSpots[5] == 1 && playerSpots[8] == 1)) && gridSpots[2] != 1) { //Tope Right Corner
       gridSpots[2] = 1;
       botSpots[2] = 1;
       playerTurn = true;
       botTurn = false;
+      botMoves.push(2);
     } else if (((playerSpots[0] == 1 && playerSpots[6] == 1)||(playerSpots[4] == 1 && playerSpots[5] == 1)) && gridSpots[3] != 1) { //Middle Left
       gridSpots[3] = 1;
       botSpots[3] = 1;
       playerTurn = true;
       botTurn = false;
+      botMoves.push(3);
     } else if (((playerSpots[0] == 1 && playerSpots[8] == 1)||(playerSpots[2] == 1 && playerSpots[6] == 1)||(playerSpots[3] == 1 && playerSpots[5] == 1)||(playerSpots[1] == 1 && playerSpots[7] == 1)) && gridSpots[4] != 1) { //Middle Middle
       gridSpots[4] = 1;
       botSpots[4] = 1;
       playerTurn = true;
       botTurn = false;
+      botMoves.push(4);
     } else if (((playerSpots[3] == 1 && playerSpots[4] == 1)||(playerSpots[2] == 1 && playerSpots[8] == 1)) && gridSpots[5] != 1) { //Middle Right
       gridSpots[5] = 1;
       botSpots[5] = 1;
       playerTurn = true;
       botTurn = false;
+      botMoves.push(5);
     } else if (((playerSpots[0] == 1 && playerSpots[3] == 1)||(playerSpots[2] == 1 && playerSpots[4] == 1)||(playerSpots[7] == 1 && playerSpots[8] == 1)) && gridSpots[6] != 1) { //Bottom Left
       gridSpots[6] = 1;
       botSpots[6] = 1;
       playerTurn = true;
       botTurn = false;
+      botMoves.push(6);
     } else if (((playerSpots[1] == 1 && playerSpots[4] == 1)||(playerSpots[6] == 1 && playerSpots[8] == 1)) && gridSpots[7] != 1) { //Bottom Middle
       gridSpots[7] = 1;
       botSpots[7] = 1;
       playerTurn = true;
       botTurn = false;
+      botMoves.push(7);
     } else if (((playerSpots[2] == 1 && playerSpots[5] == 1)||(playerSpots[0] == 1 && playerSpots[4] == 1)||(playerSpots[6] == 1 && playerSpots[7] == 1)) && gridSpots[8] != 1) { //Bottom Right
       gridSpots[8] = 1;
       botSpots[8] = 1;
       playerTurn = true;
       botTurn = false;
+      botMoves.push(8);
     } else {
       if (n == 0) {
         gridSpots[n] = 1;
         botSpots[n] = 1;
+        botMoves.push(n);
       } else if (n == 1) {
         gridSpots[n] = 1;
         botSpots[n] = 1;
+        botMoves.push(n);
       } else if (n == 2) {
         gridSpots[n] = 1;
         botSpots[n] = 1;
+        botMoves.push(n);
       } else if (n == 3) {
         gridSpots[n] = 1;
         botSpots[n] = 1;
+        botMoves.push(n);
       } else if (n == 4) {
         gridSpots[n] = 1;
         botSpots[n] = 1;
+        botMoves.push(n);
       } else if (n == 5) {
         gridSpots[n] = 1;
         botSpots[n] = 1;
+        botMoves.push(n);
       } else if (n == 6) {
         gridSpots[n] = 1;
         botSpots[n] = 1;
+        botMoves.push(n);
       } else if (n == 7) {
         gridSpots[n] = 1;
         botSpots[n] = 1;
+        botMoves.push(n);
       } else if (n == 8) {
         gridSpots[n] = 1;
         botSpots[n] = 1;
+        botMoves.push(n);
       }
       //DEBUG PT 2
       //playerTurn = true;
@@ -1589,6 +1664,7 @@ void isTie() {
    Determines if the game has resulted in a tie
    **/
   if (!won) {
+    println("Playcount " + playCount);
     textAlign(CENTER);
     textSize(60);
     fill(102, 102, 255);
